@@ -50,7 +50,7 @@ def main():
     # 0)
     create_readme(readme_md_template_file_abs,README_md_file,False)
     create_readme(readme_txt_template_file_abs,README_txt_file,True)
-    
+
     # 1) Create .spec from template
     update_spec_file(spec_file_template_abs,spec_file_abs)
 
@@ -425,8 +425,12 @@ def create_readme(readme_template,readme_output,txt):
     support      = [x.strip() for x in credits_data.get("credit_donat", "").split(";") if x.strip()]
 
     thanks_items = ", ".join(items for items in thanks)
-    community_items = ", ".join(items for items in community)
-    support_items = ", ".join(items for items in support)
+    if txt:
+        community_items = ", ".join(items for items in community)
+        support_items = ", ".join(items for items in support)
+    else:
+        community_items = ", ".join( f"[{items}]({items})" for items in community)
+        support_items = ", ".join(f"[{items}]({items})" for items in support)  
 
     # Define the list of available languages
     languages = []

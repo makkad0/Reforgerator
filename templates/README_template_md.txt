@@ -2,8 +2,8 @@
 
 **Date:** `<date>`  
 **Version:** `<version>`  
-**License:** `MIT License (See [LICENSE](LICENSE) file)`  
-**Author:** `<author-name>`
+**License:** MIT License (See [LICENSE](LICENSE) file)  
+**Author:** `<author-name>`  
 
 ---
 
@@ -208,10 +208,10 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 ### 3.3. SUPPORT
 
 🔹 **For issues, bugs, or feature requests, contact:**  
-`<credit_community>`
+<credit_community>
 
 💙 **Support the author:**  
-`<credit_donat>`
+<credit_donat>
 
 ---
 
@@ -222,6 +222,3 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 ---
 
 © `<year>`, `<author-name>`
-```
-
----

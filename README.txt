@@ -90,15 +90,11 @@ handled. To deal with CLI output, use one of the following methods:
   1. Using Windows `| more` command redirect the output through `more` to
      prevent text from disappearing:
      
-         ./Reforgerator --cli --help | more
+         ./Reforgerator --help | more
 
 ──────────────────────────────────────────────────────────────────────────────
  2.4. EXAMPLES (CLI)
 ──────────────────────────────────────────────────────────────────────────────
-
-► Viewing Help in a Scrollable Buffer
-
- ./Reforgerator --help | more
 
 ► Basic Usage
     

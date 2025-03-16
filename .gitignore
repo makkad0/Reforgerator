@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,windows,visualstudiocode
 
 publication/
-
+.vscode
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -175,14 +175,6 @@ poetry.toml
 
 # LSP config files
 pyrightconfig.json
-
-### VisualStudioCode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/*.code-snippets
 
 # Local History for Visual Studio Code
 .history/

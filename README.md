@@ -2,8 +2,8 @@
 
 **Date:** `16, March 2025`  
 **Version:** `1.1.1`  
-**License:** `MIT License (See LICENSE file)`  
-**Author:** `Makkad`
+**License:** MIT License (See [LICENSE](LICENSE) file)  
+**Author:** `Makkad`  
 
 ---
 
@@ -85,7 +85,7 @@ This mode allows advanced users to specify input files, directories, and configu
 
 On Windows, this application is recognized as a non-console application. Standard console output may not be visible unless explicitly redirected or handled. To deal with CLI output, use one of the following methods:
 
-1. Redirect the output through `more` to prevent text from disappearing:
+1. Using Windows `| more` command redirect the output through `more` to prevent text from disappearing:
 
     ```bash
     ./Reforgerator --cli --help | more
@@ -94,12 +94,6 @@ On Windows, this application is recognized as a non-console application. Standar
 ---
 
 #### Examples (CLI)
-
-**Viewing Help in a Scrollable Buffer**
-
-```bash
-./Reforgerator --help | more
-```
 
 **Basic Usage**
 
@@ -230,10 +224,10 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 ### 3.3. SUPPORT
 
 🔹 **For issues, bugs, or feature requests, contact:**  
-`https://discord.gg/6kJDWSAKFq`
+[https://discord.gg/6kJDWSAKFq](https://discord.gg/6kJDWSAKFq)
 
 💙 **Support the author:**  
-`ko-fi.com/makkad, patreon.com/makkad, boosty.to/makkad`
+[ko-fi.com/makkad](ko-fi.com/makkad), [patreon.com/makkad](patreon.com/makkad), [boosty.to/makkad](boosty.to/makkad)
 
 ---
 
@@ -244,6 +238,3 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 ---
 
 © `2025`, `Makkad`
-```
-
----
