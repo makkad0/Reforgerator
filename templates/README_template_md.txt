@@ -5,6 +5,9 @@
 **License:** MIT License (See [LICENSE](LICENSE) file)  
 **Author:** `<author-name>`  
 
+**Download the latest .exe build:** 
+- Link 1 [<ARCHIVE-NAME>](https://xgm.guru/p/wc3/reforgerator/download) (archive password: <ARCHIVE-PASSWORD>)
+
 ---
 
 ## 1.1. OVERVIEW

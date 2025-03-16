@@ -12,6 +12,8 @@ program_name = gv.PROGRAM_NAME.replace(" ", "_")
 program_name_exe = f"{program_name}.exe"
 program_version = gv.PROGRAM_VERSION.replace(" ", "_")
 appdata_files = [gv.FILE_USER_CONFIG,]
+zip_file_name = f"{program_name}_{program_version}.zip"
+password = "makkad"
 
 # Relatives paths
 data_folder_rel = "data"
@@ -40,13 +42,13 @@ readme_md_template_file_abs=os.path.join(base_dir_abs, templates_folder_rel,"REA
 changelog_file_abs = os.path.join(base_dir_abs,templates_folder_rel,"changelog.txt")
 credits_file_abs = os.path.join(base_dir_abs,data_folder_rel,gv.DIRS["credits"], "credits.txt")
 localisation_dir_abs = os.path.join(base_dir_abs,data_folder_rel,gv.DIRS["localisations"])
+output_zip_abs =os.path.join(dist_folder_abs,zip_file_name)
+
+
 
 # We assume this script is run from the folder in which main.spec and gv.py are located.
 # For safety, we use the absolute path of this script's directory to ensure we only operate within it.
 def main():
-    password = "makkad"
-    output_zip_abs =os.path.join(dist_folder_abs,f"{program_name}_{program_version}.zip")
-
     # 0)
     create_readme(readme_md_template_file_abs,README_md_file,False)
     create_readme(readme_txt_template_file_abs,README_txt_file,True)
@@ -468,6 +470,8 @@ def create_readme(readme_template,readme_output,txt):
     "<date>": date,
     "<year>": year,
     "<author-name>": gv.PROGRAM_AUTHOR,
+    "<ARCHIVE-NAME>": zip_file_name,
+    "<ARCHIVE-PASSWORD>": password,
     "<uninstall>": unistaller_bat,
     "<version>": gv.PROGRAM_VERSION,
     "<credit_thanks>" : thanks_items,

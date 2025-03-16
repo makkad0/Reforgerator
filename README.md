@@ -5,6 +5,9 @@
 **License:** MIT License (See [LICENSE](LICENSE) file)  
 **Author:** `Makkad`  
 
+**Download the latest .exe build:** 
+- Link 1 [Reforgerator_1.1.1.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
+
 ---
 
 ## 1.1. OVERVIEW
