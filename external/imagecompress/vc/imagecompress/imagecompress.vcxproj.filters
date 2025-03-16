@@ -1,0 +1,492 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Файлы исходного кода">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Заголовочные файлы">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="squish">
+      <UniqueIdentifier>{94d66eef-3eaa-4d56-bfac-0168acdc7425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="jpeglib">
+      <UniqueIdentifier>{d56e0cdc-c6a5-41e6-bf9a-1aa789dcce17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pnglib">
+      <UniqueIdentifier>{b5d893bf-3ea7-4ebd-999d-2bf6fe020123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zlib">
+      <UniqueIdentifier>{3e5bca01-5b79-41f7-878d-798f8eac5cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="etc1">
+      <UniqueIdentifier>{34b73eb5-297b-4817-917f-717d7e754857}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\module.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\initmodule.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\filemanager.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\memory.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\squish\alpha.cpp">
+      <Filter>squish</Filter>
+    </ClCompile>
+    <ClCompile Include="src\squish\clusterfit.cpp">
+      <Filter>squish</Filter>
+    </ClCompile>
+    <ClCompile Include="src\squish\colourblock.cpp">
+      <Filter>squish</Filter>
+    </ClCompile>
+    <ClCompile Include="src\squish\colourfit.cpp">
+      <Filter>squish</Filter>
+    </ClCompile>
+    <ClCompile Include="src\squish\colourset.cpp">
+      <Filter>squish</Filter>
+    </ClCompile>
+    <ClCompile Include="src\squish\maths.cpp">
+      <Filter>squish</Filter>
+    </ClCompile>
+    <ClCompile Include="src\squish\rangefit.cpp">
+      <Filter>squish</Filter>
+    </ClCompile>
+    <ClCompile Include="src\squish\singlecolourfit.cpp">
+      <Filter>squish</Filter>
+    </ClCompile>
+    <ClCompile Include="src\squish\squish.cpp">
+      <Filter>squish</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jcapimin.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jcapistd.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jccoefct.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jccolor.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jcdctmgr.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jchuff.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jcinit.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jcmainct.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jcmarker.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jcmaster.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jcomapi.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jcparam.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jcphuff.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jcprepct.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jcsample.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jctrans.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdapimin.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdapistd.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdatadst.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdatasrc.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdcoefct.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdcolor.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jddctmgr.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdhuff.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdinput.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdmainct.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdmarker.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdmaster.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdmerge.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdphuff.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdpostct.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdsample.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jdtrans.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jerror.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jfdctflt.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jfdctfst.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jfdctint.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jidctflt.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jidctfst.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jidctint.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jidctred.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jmemansi.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jmemmgr.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jquant1.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jquant2.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\jutils.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\rdbmp.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\rdcolmap.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\rdgif.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\rdppm.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\rdrle.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\rdswitch.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\rdtarga.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\transupp.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\wrbmp.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\wrgif.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\wrppm.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\wrrle.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\wrtarga.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\png.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngerror.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pnggccrd.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngget.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngmem.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngpread.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngread.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngrio.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngrtran.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngrutil.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngset.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngtest.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngtrans.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngvcrd.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngwio.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngwrite.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngwtran.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pnglib\pngwutil.c">
+      <Filter>pnglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zlib\adler32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zlib\compress.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zlib\crc32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zlib\deflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zlib\gzio.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zlib\infback.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zlib\inffast.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zlib\inflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zlib\inftrees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zlib\trees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zlib\uncompr.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zlib\zutil.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\memoryreader.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jpeglib\cdjpeg.c">
+      <Filter>jpeglib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\etc1\rg_etc1.cpp">
+      <Filter>etc1</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\module.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="src\filemanager.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="src\memory.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tools.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\alpha.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\clusterfit.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\colourblock.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\colourfit.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\colourset.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\config.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\maths.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\rangefit.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\simd.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\simd_float.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\simd_sse.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\simd_ve.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\singlecolourfit.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\squish\squish.h">
+      <Filter>squish</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\cderror.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\cdjpeg.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\jchuff.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\jconfig.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\jdct.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\jdhuff.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\jerror.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\jinclude.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\jmemsys.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\jmorecfg.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\jpegint.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\jpeglib.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\jversion.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jpeglib\transupp.h">
+      <Filter>jpeglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pnglib\png.h">
+      <Filter>pnglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pnglib\pngconf.h">
+      <Filter>pnglib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zlib\crc32.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zlib\deflate.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zlib\inffast.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zlib\inffixed.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zlib\inflate.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zlib\inftrees.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zlib\trees.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zlib\zconf.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zlib\zconf.in.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zlib\zlib.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zlib\zutil.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\memoryreader.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="src\etc1\rg_etc1.h">
+      <Filter>etc1</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

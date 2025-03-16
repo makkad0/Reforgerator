@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{32652221-16E9-4BDA-90A0-A29ED4874AE1}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>imagecompress</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetExt>.pyd</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetExt>.pyd</TargetExt>
+    <OutDir>..\build</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\winap\Python33\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\winap\Python33\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\winap\Python33\include;$(MSBuildProjectDirectory)\src\squish;$(MSBuildProjectDirectory)\src\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\winap\Python33\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\etc1\rg_etc1.cpp" />
+    <ClCompile Include="src\filemanager.cpp" />
+    <ClCompile Include="src\initmodule.cpp" />
+    <ClCompile Include="src\jpeglib\cdjpeg.c" />
+    <ClCompile Include="src\jpeglib\jcapimin.c" />
+    <ClCompile Include="src\jpeglib\jcapistd.c" />
+    <ClCompile Include="src\jpeglib\jccoefct.c" />
+    <ClCompile Include="src\jpeglib\jccolor.c" />
+    <ClCompile Include="src\jpeglib\jcdctmgr.c" />
+    <ClCompile Include="src\jpeglib\jchuff.c" />
+    <ClCompile Include="src\jpeglib\jcinit.c" />
+    <ClCompile Include="src\jpeglib\jcmainct.c" />
+    <ClCompile Include="src\jpeglib\jcmarker.c" />
+    <ClCompile Include="src\jpeglib\jcmaster.c" />
+    <ClCompile Include="src\jpeglib\jcomapi.c" />
+    <ClCompile Include="src\jpeglib\jcparam.c" />
+    <ClCompile Include="src\jpeglib\jcphuff.c" />
+    <ClCompile Include="src\jpeglib\jcprepct.c" />
+    <ClCompile Include="src\jpeglib\jcsample.c" />
+    <ClCompile Include="src\jpeglib\jctrans.c" />
+    <ClCompile Include="src\jpeglib\jdapimin.c" />
+    <ClCompile Include="src\jpeglib\jdapistd.c" />
+    <ClCompile Include="src\jpeglib\jdatadst.c" />
+    <ClCompile Include="src\jpeglib\jdatasrc.c" />
+    <ClCompile Include="src\jpeglib\jdcoefct.c" />
+    <ClCompile Include="src\jpeglib\jdcolor.c" />
+    <ClCompile Include="src\jpeglib\jddctmgr.c" />
+    <ClCompile Include="src\jpeglib\jdhuff.c" />
+    <ClCompile Include="src\jpeglib\jdinput.c" />
+    <ClCompile Include="src\jpeglib\jdmainct.c" />
+    <ClCompile Include="src\jpeglib\jdmarker.c" />
+    <ClCompile Include="src\jpeglib\jdmaster.c" />
+    <ClCompile Include="src\jpeglib\jdmerge.c" />
+    <ClCompile Include="src\jpeglib\jdphuff.c" />
+    <ClCompile Include="src\jpeglib\jdpostct.c" />
+    <ClCompile Include="src\jpeglib\jdsample.c" />
+    <ClCompile Include="src\jpeglib\jdtrans.c" />
+    <ClCompile Include="src\jpeglib\jerror.c" />
+    <ClCompile Include="src\jpeglib\jfdctflt.c" />
+    <ClCompile Include="src\jpeglib\jfdctfst.c" />
+    <ClCompile Include="src\jpeglib\jfdctint.c" />
+    <ClCompile Include="src\jpeglib\jidctflt.c" />
+    <ClCompile Include="src\jpeglib\jidctfst.c" />
+    <ClCompile Include="src\jpeglib\jidctint.c" />
+    <ClCompile Include="src\jpeglib\jidctred.c" />
+    <ClCompile Include="src\jpeglib\jmemansi.c" />
+    <ClCompile Include="src\jpeglib\jmemmgr.c" />
+    <ClCompile Include="src\jpeglib\jquant1.c" />
+    <ClCompile Include="src\jpeglib\jquant2.c" />
+    <ClCompile Include="src\jpeglib\jutils.c" />
+    <ClCompile Include="src\jpeglib\rdbmp.c" />
+    <ClCompile Include="src\jpeglib\rdcolmap.c" />
+    <ClCompile Include="src\jpeglib\rdgif.c" />
+    <ClCompile Include="src\jpeglib\rdppm.c" />
+    <ClCompile Include="src\jpeglib\rdrle.c" />
+    <ClCompile Include="src\jpeglib\rdswitch.c" />
+    <ClCompile Include="src\jpeglib\rdtarga.c" />
+    <ClCompile Include="src\jpeglib\transupp.c" />
+    <ClCompile Include="src\jpeglib\wrbmp.c" />
+    <ClCompile Include="src\jpeglib\wrgif.c" />
+    <ClCompile Include="src\jpeglib\wrppm.c" />
+    <ClCompile Include="src\jpeglib\wrrle.c" />
+    <ClCompile Include="src\jpeglib\wrtarga.c" />
+    <ClCompile Include="src\memory.cpp" />
+    <ClCompile Include="src\memoryreader.cpp" />
+    <ClCompile Include="src\module.cpp" />
+    <ClCompile Include="src\pnglib\png.c" />
+    <ClCompile Include="src\pnglib\pngerror.c" />
+    <ClCompile Include="src\pnglib\pnggccrd.c" />
+    <ClCompile Include="src\pnglib\pngget.c" />
+    <ClCompile Include="src\pnglib\pngmem.c" />
+    <ClCompile Include="src\pnglib\pngpread.c" />
+    <ClCompile Include="src\pnglib\pngread.c" />
+    <ClCompile Include="src\pnglib\pngrio.c" />
+    <ClCompile Include="src\pnglib\pngrtran.c" />
+    <ClCompile Include="src\pnglib\pngrutil.c" />
+    <ClCompile Include="src\pnglib\pngset.c" />
+    <ClCompile Include="src\pnglib\pngtest.c" />
+    <ClCompile Include="src\pnglib\pngtrans.c" />
+    <ClCompile Include="src\pnglib\pngvcrd.c" />
+    <ClCompile Include="src\pnglib\pngwio.c" />
+    <ClCompile Include="src\pnglib\pngwrite.c" />
+    <ClCompile Include="src\pnglib\pngwtran.c" />
+    <ClCompile Include="src\pnglib\pngwutil.c" />
+    <ClCompile Include="src\squish\alpha.cpp" />
+    <ClCompile Include="src\squish\clusterfit.cpp" />
+    <ClCompile Include="src\squish\colourblock.cpp" />
+    <ClCompile Include="src\squish\colourfit.cpp" />
+    <ClCompile Include="src\squish\colourset.cpp" />
+    <ClCompile Include="src\squish\maths.cpp" />
+    <ClCompile Include="src\squish\rangefit.cpp" />
+    <ClCompile Include="src\squish\singlecolourfit.cpp" />
+    <ClCompile Include="src\squish\squish.cpp" />
+    <ClCompile Include="src\zlib\adler32.c" />
+    <ClCompile Include="src\zlib\compress.c" />
+    <ClCompile Include="src\zlib\crc32.c" />
+    <ClCompile Include="src\zlib\deflate.c" />
+    <ClCompile Include="src\zlib\gzio.c" />
+    <ClCompile Include="src\zlib\infback.c" />
+    <ClCompile Include="src\zlib\inffast.c" />
+    <ClCompile Include="src\zlib\inflate.c" />
+    <ClCompile Include="src\zlib\inftrees.c" />
+    <ClCompile Include="src\zlib\trees.c" />
+    <ClCompile Include="src\zlib\uncompr.c" />
+    <ClCompile Include="src\zlib\zutil.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\etc1\rg_etc1.h" />
+    <ClInclude Include="src\filemanager.h" />
+    <ClInclude Include="src\jpeglib\cderror.h" />
+    <ClInclude Include="src\jpeglib\cdjpeg.h" />
+    <ClInclude Include="src\jpeglib\jchuff.h" />
+    <ClInclude Include="src\jpeglib\jconfig.h" />
+    <ClInclude Include="src\jpeglib\jdct.h" />
+    <ClInclude Include="src\jpeglib\jdhuff.h" />
+    <ClInclude Include="src\jpeglib\jerror.h" />
+    <ClInclude Include="src\jpeglib\jinclude.h" />
+    <ClInclude Include="src\jpeglib\jmemsys.h" />
+    <ClInclude Include="src\jpeglib\jmorecfg.h" />
+    <ClInclude Include="src\jpeglib\jpegint.h" />
+    <ClInclude Include="src\jpeglib\jpeglib.h" />
+    <ClInclude Include="src\jpeglib\jversion.h" />
+    <ClInclude Include="src\jpeglib\transupp.h" />
+    <ClInclude Include="src\memory.h" />
+    <ClInclude Include="src\memoryreader.h" />
+    <ClInclude Include="src\module.h" />
+    <ClInclude Include="src\pnglib\png.h" />
+    <ClInclude Include="src\pnglib\pngconf.h" />
+    <ClInclude Include="src\squish\alpha.h" />
+    <ClInclude Include="src\squish\clusterfit.h" />
+    <ClInclude Include="src\squish\colourblock.h" />
+    <ClInclude Include="src\squish\colourfit.h" />
+    <ClInclude Include="src\squish\colourset.h" />
+    <ClInclude Include="src\squish\config.h" />
+    <ClInclude Include="src\squish\maths.h" />
+    <ClInclude Include="src\squish\rangefit.h" />
+    <ClInclude Include="src\squish\simd.h" />
+    <ClInclude Include="src\squish\simd_float.h" />
+    <ClInclude Include="src\squish\simd_sse.h" />
+    <ClInclude Include="src\squish\simd_ve.h" />
+    <ClInclude Include="src\squish\singlecolourfit.h" />
+    <ClInclude Include="src\squish\squish.h" />
+    <ClInclude Include="src\tools.h" />
+    <ClInclude Include="src\zlib\crc32.h" />
+    <ClInclude Include="src\zlib\deflate.h" />
+    <ClInclude Include="src\zlib\inffast.h" />
+    <ClInclude Include="src\zlib\inffixed.h" />
+    <ClInclude Include="src\zlib\inflate.h" />
+    <ClInclude Include="src\zlib\inftrees.h" />
+    <ClInclude Include="src\zlib\trees.h" />
+    <ClInclude Include="src\zlib\zconf.h" />
+    <ClInclude Include="src\zlib\zconf.in.h" />
+    <ClInclude Include="src\zlib\zlib.h" />
+    <ClInclude Include="src\zlib\zutil.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

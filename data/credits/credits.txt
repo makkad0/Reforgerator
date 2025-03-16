@@ -1,0 +1,4 @@
+credit_contributors = Makkad;
+credit_thanks_to = RvzerBro (test); LeP (jpgwrapper); KoMaTo3 (py.texture.compress); mdboom (pytoshop)
+credit_community = https://discord.gg/6kJDWSAKFq;
+credit_donat = ko-fi.com/makkad;patreon.com/makkad;boosty.to/makkad;

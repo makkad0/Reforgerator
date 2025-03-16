@@ -1,0 +1,17 @@
+### 1.1.1 - 16, March 2025
+- Minor optimization.
+
+### 1.1.0 - 15, March 2025
+- Added support for PSD input, including RGBA layers, opacity, and masks in regular blend mode.
+- Introduced BLP1 JPEG handling with non-opaque alpha channels for both input and output.
+- Implemented configurable input format filtering to process specific file types.
+- Enabled multi-folder support for Drag-and-Drop and CLI inputs.
+- Updated folder selection UI with a new icon.
+- Added support for custom frames.
+- Introduced new frame types: Scorescreen Hero (SSH) and Scorescreen Player (SSP).
+- Added frame options for Disabled Passive (DISPAS) and Disabled Autocast (DISATC) icons.
+- Expanded Drag-and-Drop functionality to cover the entire program window.
+- Added simplified Chinese localization (`local_zh-CN.txt`).
+
+### 1.0.0 - 08, March 2025
+- Public release.
