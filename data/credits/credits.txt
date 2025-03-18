@@ -1,4 +1,5 @@
 credit_contributors = Makkad;
-credit_thanks_to = RvzerBro (test); LeP (jpgwrapper); KoMaTo3 (py.texture.compress); mdboom (pytoshop)
-credit_community = https://discord.gg/6kJDWSAKFq;
+credit_thanks_to = RvzerBro (testing); LeP (jpgwrapper); KoMaTo3 (py.texture.compress); mdboom (pytoshop); Barorque (IconTemplateReforged.psd); Shadow Daemon (for the frame templates from Button Manager and inspiration);
+credit_community_links = https://discord.gg/6kJDWSAKFq; https://github.com/makkad0/Reforgerator; https://www.hiveworkshop.com/threads/reforgerator-v1-1-1.359115/; https://xgm.guru/p/wc3/reforgerator;
+credit_community = Discord; GitHub; Hiveworkshop; XGM; 
 credit_donat = ko-fi.com/makkad;patreon.com/makkad;boosty.to/makkad;

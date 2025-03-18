@@ -111,7 +111,6 @@ credit_author = Autor:
 credit_contributors = Colaboradores
 credit_thanks_to = Agradecimientos a
 credit_community_support = Soporte y comunitario
-credit_visit = Discord
 credit_donat = Apoyar al autor
 message_window_browse_warning = La carpeta no existe:\n{}\n\n¿Desea crearla?
 message_window_browse_warning_title = Carpeta no encontrada

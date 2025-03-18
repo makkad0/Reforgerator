@@ -111,7 +111,6 @@ credit_author = 作者：
 credit_contributors = 贡献者：
 credit_thanks_to = 感谢
 credit_community_support = 社区 {} 支持
-credit_visit = Discord
 credit_donat = 支持作者
 message_window_browse_warning = 文件夹不存在：\n{}\n\n是否要创建它？
 message_window_browse_warning_title = 文件夹未找到

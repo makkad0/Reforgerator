@@ -1,12 +1,12 @@
 # REFORGERATOR
 
-**Date:** `16, March 2025`  
-**Version:** `1.1.1`  
+**Date:** `18, March 2025`  
+**Version:** `1.1.2`  
 **License:** MIT License (See [LICENSE](LICENSE) file)  
 **Author:** `Makkad`  
 
 **Download the latest .exe build:** 
-- Link 1 [Reforgerator_1.1.1.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
+- Link 1 [Reforgerator_1.1.2.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
 
 ---
 
@@ -197,8 +197,11 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 
 ### 3.1. CHANGELOG
 
+### 1.1.2 - 18, March 2025
+- Updated the 'About' section.
+
 ### 1.1.1 - 16, March 2025
-- Minor optimization.
+- Optimized performance.
 
 ### 1.1.0 - 15, March 2025
 - Added support for PSD input, including RGBA layers, opacity, and masks in regular blend mode.
@@ -220,14 +223,14 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 ### 3.2. CREDITS
 
 🎖 **Thanks to:**  
-`RvzerBro (test), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom (pytoshop)`
+`RvzerBro (testing), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom (pytoshop), Barorque (IconTemplateReforged.psd), Shadow Daemon (for the frame templates from Button Manager and inspiration)`
 
 ---
 
 ### 3.3. SUPPORT
 
 🔹 **For issues, bugs, or feature requests, contact:**  
-[https://discord.gg/6kJDWSAKFq](https://discord.gg/6kJDWSAKFq)
+[Discord](Discord), [GitHub](GitHub), [Hiveworkshop](Hiveworkshop), [XGM](XGM)
 
 💙 **Support the author:**  
 [ko-fi.com/makkad](ko-fi.com/makkad), [patreon.com/makkad](patreon.com/makkad), [boosty.to/makkad](boosty.to/makkad)

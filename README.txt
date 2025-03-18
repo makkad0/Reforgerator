@@ -2,8 +2,8 @@
                           REFORGERATOR
 ══════════════════════════════════════════════════════════════════════════════
 
-Date      : 16, March 2025
-Version   : 1.1.1
+Date      : 18, March 2025
+Version   : 1.1.2
 License   : MIT License (See LICENSE file)
 Author    : Makkad
 
@@ -190,8 +190,11 @@ handled. To deal with CLI output, use one of the following methods:
 ──────────────────────────────────────────────────────────────────────────────
  3.1. CHANGELOG
 ──────────────────────────────────────────────────────────────────────────────
+### 1.1.2 - 18, March 2025
+- Updated the 'About' section.
+
 ### 1.1.1 - 16, March 2025
-- Minor optimization.
+- Optimized performance.
 
 ### 1.1.0 - 15, March 2025
 - Added support for PSD input, including RGBA layers, opacity, and masks in
@@ -217,14 +220,15 @@ handled. To deal with CLI output, use one of the following methods:
  3.2. CREDITS
 ──────────────────────────────────────────────────────────────────────────────
 🎖 Thanks to:
-   RvzerBro (test), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom
-   (pytoshop)
+   RvzerBro (testing), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom
+   (pytoshop), Barorque (IconTemplateReforged.psd), Shadow Daemon (for the frame
+   templates from Button Manager and inspiration)
 
 ──────────────────────────────────────────────────────────────────────────────
  3.2. SUPPORT
 ──────────────────────────────────────────────────────────────────────────────
 🔹 For issues, bugs, or feature requests, contact:  
-   https://discord.gg/6kJDWSAKFq  
+   Discord, GitHub, Hiveworkshop, XGM  
 
 💙 Support the author:
    ko-fi.com/makkad, patreon.com/makkad, boosty.to/makkad  

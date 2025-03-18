@@ -111,7 +111,6 @@ credit_author = Author:
 credit_contributors = Contributors
 credit_thanks_to = Thanks to
 credit_community_support = Community {} Support
-credit_visit = Discord
 credit_donat = Support the author
 message_window_browse_warning = The folder does not exist:\n{}\n\nDo you want to create it?
 message_window_browse_warning_title = Folder Not Found

@@ -1,5 +1,8 @@
+### 1.1.2 - 18, March 2025
+- Updated the 'About' section.
+
 ### 1.1.1 - 16, March 2025
-- Minor optimization.
+- Optimized performance.
 
 ### 1.1.0 - 15, March 2025
 - Added support for PSD input, including RGBA layers, opacity, and masks in regular blend mode.

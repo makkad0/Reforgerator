@@ -2,6 +2,7 @@ import wx
 from wx.adv import HyperlinkCtrl 
 import os
 import var.global_var as gv
+import var.sizes as cs
 from src.localisation import get_local_text
 from src.system import get_data_subdir
 
@@ -31,7 +32,8 @@ class AboutDialog(wx.Dialog):
         # Process credit entries (split values by semicolon and remove empties)
         contributors = [x.strip() for x in credits_data.get("credit_contributors", "").split(";") if x.strip()]
         thanks       = [x.strip() for x in credits_data.get("credit_thanks_to", "").split(";") if x.strip()]
-        community    = [x.strip() for x in credits_data.get("credit_community", "").split(";") if x.strip()]
+        community_links    = [x.strip() for x in credits_data.get("credit_community_links", "").split(";") if x.strip()]
+        community_texts    = [x.strip() for x in credits_data.get("credit_community", "").split(";") if x.strip()]
         support      = [x.strip() for x in credits_data.get("credit_donat", "").split(";") if x.strip()]
 
         # Main vertical sizer with minimal margins
@@ -90,8 +92,9 @@ class AboutDialog(wx.Dialog):
         thanks_title.SetFont(font_subtitle)
         details_sizer.Add(thanks_title, 0, wx.LEFT | wx.TOP, 5)
         thanks_str = " \u2022 ".join(thanks)
-        thanks_ctrl = wx.StaticText(self, wx.ID_ANY, thanks_str)
+        thanks_ctrl = wx.StaticText(self, wx.ID_ANY, thanks_str, style=wx.ST_NO_AUTORESIZE)
         thanks_ctrl.SetFont(font_info)
+        thanks_ctrl.Wrap(cs.AW_MAX_THANKS_WIDTH)  # Adjust 320 to your layout's constraints
         details_sizer.Add(thanks_ctrl, 0, wx.LEFT, 10)
 
         # Community Section
@@ -100,14 +103,29 @@ class AboutDialog(wx.Dialog):
         community_title = wx.StaticText(self, wx.ID_ANY,community_text )
         community_title.SetFont(font_subtitle)
         details_sizer.Add(community_title, 0, wx.LEFT | wx.TOP, 5)
-        if community:
-            # Create a hyperlink using the first community URL
-            if has_adv:
-                comm_link = HyperlinkCtrl(self, wx.ID_ANY, get_local_text('credit_visit'), community[0])
-            else:
-                comm_link = wx.StaticText(self, wx.ID_ANY, f"{get_local_text('credit_visit')}: {community[0]}")
-            comm_link.SetFont(font_info)
-            details_sizer.Add(comm_link, 0, wx.LEFT, 10)
+        count=0
+        count_max=len(community_texts)
+        # Create a horizontal sizer for the links
+        community_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        if community_texts:
+            for url in community_links:
+                if count<count_max:
+                    if has_adv:
+                        comm_link = HyperlinkCtrl(self, wx.ID_ANY, community_texts[count], url)
+                    else:
+                        comm_link = wx.StaticText(self, wx.ID_ANY, f"{community_texts[count]}: {url}")
+                    comm_link.SetFont(font_info)
+                    community_sizer.Add(comm_link, 0, wx.LEFT, 5)
+                    # Add separator " • " if there are more links coming
+                    if count < count_max - 1:
+                        separator = wx.StaticText(self, wx.ID_ANY, " \u2022 ")
+                        separator.SetFont(font_info)
+                        community_sizer.Add(separator, 0, wx.LEFT | wx.RIGHT, 5)
+
+                    count += 1
+
+        # Add the horizontal sizer to the main details sizer
+        details_sizer.Add(community_sizer, 0, wx.LEFT, 10)
 
         # Support (donat) Section – each entry on its own row
         if support:

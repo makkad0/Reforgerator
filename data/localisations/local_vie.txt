@@ -111,7 +111,6 @@ credit_author = Tác giả:
 credit_contributors = Những người đóng góp
 credit_thanks_to = Cảm ơn
 credit_community_support = Hỗ trợ cộng đồng {}
-credit_visit = Discord
 credit_donat = Ủng hộ tác giả
 message_window_browse_warning = Thư mục không tồn tại:\n{}\nBạn có muốn tạo nó không?
 message_window_browse_warning_title = Không tìm thấy thư mục
