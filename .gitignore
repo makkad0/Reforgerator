@@ -28,7 +28,6 @@ lib/
 lib64/
 parts/
 sdist/
-var/
 wheels/
 share/python-wheels/
 *.egg-info/
@@ -215,5 +214,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+!*.pyd
 
 # End of https://www.toptal.com/developers/gitignore/api/python,windows,visualstudiocode
