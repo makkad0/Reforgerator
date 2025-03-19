@@ -420,19 +420,26 @@ def create_readme(readme_template,readme_output,txt):
                     key, value = line.split("=", 1)
                     credits_data[key.strip()] = value.strip()
 
+    def ensure_http(link):
+        return link if re.match(r"^(?:http|https|ftp)://", link) else f"https://{link}"
+
     # Process credit entries (split values by semicolon and remove empties)
     contributors = [x.strip() for x in credits_data.get("credit_contributors", "").split(";") if x.strip()]
     thanks       = [x.strip() for x in credits_data.get("credit_thanks_to", "").split(";") if x.strip()]
     community    = [x.strip() for x in credits_data.get("credit_community", "").split(";") if x.strip()]
+    community_links    = [x.strip() for x in credits_data.get("credit_community_links", "").split(";") if x.strip()]
     support      = [x.strip() for x in credits_data.get("credit_donat", "").split(";") if x.strip()]
+    
+    # Pair community names with links, filling until either list ends
+    community_pairs =zip(community, community_links + [""] * (len(community) - len(community_links)))
 
     thanks_items = ", ".join(items for items in thanks)
     if txt:
-        community_items = ", ".join(items for items in community)
+        community_items = "   ".join(f"{name} {ensure_http(link)}\n" for (name, link) in community_pairs).strip()
         support_items = ", ".join(items for items in support)
     else:
-        community_items = ", ".join( f"[{items}]({items})" for items in community)
-        support_items = ", ".join(f"[{items}]({items})" for items in support)  
+        community_items = ", ".join(f"[{name}]({ensure_http(link)})" for (name, link) in community_pairs)
+        support_items = ", ".join(f"[{items}]({ensure_http(items)})" for items in support)  
 
     # Define the list of available languages
     languages = []

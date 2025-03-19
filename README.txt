@@ -2,7 +2,7 @@
                           REFORGERATOR
 ══════════════════════════════════════════════════════════════════════════════
 
-Date      : 18, March 2025
+Date      : 19, March 2025
 Version   : 1.1.2
 License   : MIT License (See LICENSE file)
 Author    : Makkad
@@ -228,7 +228,10 @@ handled. To deal with CLI output, use one of the following methods:
  3.2. SUPPORT
 ──────────────────────────────────────────────────────────────────────────────
 🔹 For issues, bugs, or feature requests, contact:  
-   Discord, GitHub, Hiveworkshop, XGM  
+   Discord https://discord.gg/6kJDWSAKFq
+   GitHub https://github.com/makkad0/Reforgerator
+   Hiveworkshop https://www.hiveworkshop.com/threads/reforgerator-v1-1-1.359115/
+   XGM https://xgm.guru/p/wc3/reforgerator  
 
 💙 Support the author:
    ko-fi.com/makkad, patreon.com/makkad, boosty.to/makkad  

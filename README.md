@@ -1,6 +1,6 @@
 # REFORGERATOR
 
-**Date:** `18, March 2025`  
+**Date:** `19, March 2025`  
 **Version:** `1.1.2`  
 **License:** MIT License (See [LICENSE](LICENSE) file)  
 **Author:** `Makkad`  
@@ -230,10 +230,10 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 ### 3.3. SUPPORT
 
 🔹 **For issues, bugs, or feature requests, contact:**  
-[Discord](Discord), [GitHub](GitHub), [Hiveworkshop](Hiveworkshop), [XGM](XGM)
+[Discord](https://discord.gg/6kJDWSAKFq), [GitHub](https://github.com/makkad0/Reforgerator), [Hiveworkshop](https://www.hiveworkshop.com/threads/reforgerator-v1-1-1.359115/), [XGM](https://xgm.guru/p/wc3/reforgerator)
 
 💙 **Support the author:**  
-[ko-fi.com/makkad](ko-fi.com/makkad), [patreon.com/makkad](patreon.com/makkad), [boosty.to/makkad](boosty.to/makkad)
+[ko-fi.com/makkad](https://ko-fi.com/makkad), [patreon.com/makkad](https://patreon.com/makkad), [boosty.to/makkad](https://boosty.to/makkad)
 
 ---
 
