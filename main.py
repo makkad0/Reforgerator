@@ -4,7 +4,7 @@ import sys
 from gui.gui_logic import IconConverterGUI
 from src.cli import parse_arguments
 from src.cli import cli_mode
-import var.global_var as gv
+import vars.global_var as gv
 
 class MyApp(wx.App):
 

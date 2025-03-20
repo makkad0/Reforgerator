@@ -1,7 +1,7 @@
 import os
 import configparser
-import var.global_var as gv
-import var.var_for_init as iv
+import vars.global_var as gv
+import vars.var_for_init as iv
 from PIL import Image
 from src.system import get_data_subdir
 

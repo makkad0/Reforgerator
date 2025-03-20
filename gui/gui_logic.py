@@ -3,8 +3,8 @@ import os
 import subprocess
 import sys
 
-import var.global_var as gv
-import var.sizes as cs
+import vars.global_var as gv
+import vars.sizes as cs
 
 from gui.gui_validators import SliderSyncValidator
 from gui.gui_input_preview import InputImagePanel

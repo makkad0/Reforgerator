@@ -1,5 +1,5 @@
 import os
-import var.global_var as gv
+import vars.global_var as gv
 from src.system import get_data_subdir
 
 # Global dictionary for localization text.

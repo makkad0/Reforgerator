@@ -336,11 +336,11 @@ def verify_blp_file(file_path: str) -> List[str]:
     
     return errors
 
-def restore_jpeg_from_blp(input_blp: str, output_jpeg: str) -> None:
+def restore_jpeg_from_blp(input_blp: str, output_jpeg: str, mip_level: int = 0) -> None:
     """
     Reads a BLP file (assumed to use CONTENT_JPEG) and restores the original JPEG data
-    by combining the common JPEG header and the first mipmap's JPEG data block.
-    
+    by combining the common JPEG header and one mipmap's JPEG data block.
+
     The BLP file structure is assumed to be:
       - 156-byte fixed header:
           * Bytes 0-3: Magic ("BLP1" or "BLP2")
@@ -354,36 +354,50 @@ def restore_jpeg_from_blp(input_blp: str, output_jpeg: str) -> None:
           * Bytes 92-155: MipMapSizes array (16 DWORDs)
       - JPEG header block:
           * 4 bytes: JPEG header size (DWORD)
-          * N bytes: JPEG header (up to 624 bytes)
-      - Then, the JPEG data blocks for each mipmap.
-    
-    This function reads the JPEG header block (common header) and then
-    extracts the first mipmap's JPEG data (using the first element of the
-    MipMapOffsets and MipMapSizes arrays) and writes their concatenation to output_jpeg.
-    
-    In case of discrepancies (e.g. file too short), an exception is raised.
+          * N bytes: JPEG header data (up to 624 bytes)
+      - Followed by JPEG data blocks for each mipmap.
+
+    The optional parameter mip_level specifies the desired mipmap:
+      - mip_level = 0 (default) restores the main JPEG image,
+      - mip_level = 1 restores mipmap level 1,
+      - mip_level = 2 restores mipmap level 2, etc.
+    If the requested level is not available (i.e. its offset or size is 0),
+    the function will choose the highest available mipmap level.
     """
     with open(input_blp, "rb") as f:
         data = f.read()
-    
+
     file_len = len(data)
     if file_len < 156:
         raise ValueError(f"File too short ({file_len} bytes); expected at least 156 bytes.")
-    
-    # Read magic (bytes 0-3) and ensure we have a BLP file.
+
+    # Verify magic (bytes 0-3)
     magic = data[0:4]
     if magic not in (b"BLP1", b"BLP2"):
         raise ValueError(f"Invalid magic: {magic}. Not a valid BLP file.")
-    
-    # Read Compression field (bytes 4-7)
+
+    # Verify compression (bytes 4-7)
     compression = struct.unpack_from("<I", data, 4)[0]
     if compression != 0:
         raise ValueError(f"BLP compression is {compression}, expected 0 (CONTENT_JPEG).")
-    
-    # Read first mipmap offset and size:
-    first_mipmap_offset = struct.unpack_from("<I", data, 28)[0]  # first DWORD in MipMapOffsets array
-    first_mipmap_size   = struct.unpack_from("<I", data, 92)[0]  # first DWORD in MipMapSizes array
 
+    # Read the 16-element arrays of mipmap offsets and sizes.
+    mipmap_offsets = list(struct.unpack_from("<16I", data, 28))
+    mipmap_sizes   = list(struct.unpack_from("<16I", data, 92))
+
+    def choose_mipmap_level(requested_level: int) -> int:
+        # If the requested level exists and is available, return it.
+        if 0 <= requested_level < len(mipmap_offsets):
+            if mipmap_offsets[requested_level] != 0 and mipmap_sizes[requested_level] != 0:
+                return requested_level
+        # Otherwise, scan from the highest level down to 0 and pick the first available.
+        for lvl in reversed(range(len(mipmap_offsets))):
+            if mipmap_offsets[lvl] != 0 and mipmap_sizes[lvl] != 0:
+                return lvl
+        raise ValueError("No mipmap level available in this BLP file.")
+
+    chosen_level = choose_mipmap_level(mip_level)
+    
     # After the fixed header (156 bytes) comes the JPEG header block.
     offset = 156
     if file_len < offset + 4:
@@ -394,26 +408,26 @@ def restore_jpeg_from_blp(input_blp: str, output_jpeg: str) -> None:
         raise ValueError(f"JPEG header size {jpeg_header_size} exceeds maximum allowed (624).")
     if file_len < offset + jpeg_header_size:
         raise ValueError("File too short for declared JPEG header data.")
-    
     common_header = data[offset:offset + jpeg_header_size]
     offset += jpeg_header_size
 
-    # Now, verify that the first mipmap block exists.
-    if first_mipmap_offset == 0 or first_mipmap_size == 0:
-        raise ValueError("First mipmap block is missing (offset or size is 0).")
-    if file_len < first_mipmap_offset + first_mipmap_size:
-        raise ValueError("File too short for first mipmap block as declared by header.")
+    # Retrieve the chosen mipmap block.
+    chosen_offset = mipmap_offsets[chosen_level]
+    chosen_size   = mipmap_sizes[chosen_level]
+    if chosen_offset == 0 or chosen_size == 0:
+        raise ValueError(f"Mipmap level {chosen_level} block is missing (offset or size is 0).")
+    if file_len < chosen_offset + chosen_size:
+        raise ValueError("File too short for chosen mipmap block as declared by header.")
     
-    first_mip_data = data[first_mipmap_offset:first_mipmap_offset + first_mipmap_size]
-    
-    # Combine the common JPEG header and the first mipmap's JPEG data.
-    restored_jpeg = common_header + first_mip_data
-    
-    # Save the restored JPEG data to output file.
+    mip_data = data[chosen_offset:chosen_offset + chosen_size]
+
+    # Combine common JPEG header and the chosen mipmap JPEG data.
+    restored_jpeg = common_header + mip_data
+
     with open(output_jpeg, "wb") as out_f:
         out_f.write(restored_jpeg)
-    
-    print(f"Restored JPEG saved as {output_jpeg}")
+
+    print(f"Restored JPEG from mipmap level {chosen_level} saved as {output_jpeg}")
 
 def get_marker_description(marker):
     """
@@ -632,15 +646,19 @@ def insert_jpeg_data_into_blp(jpeg_datas: list[bytes], width, height, fp: IO[byt
 if __name__ == "__main__":
 
     scenarios= [
-        "save_as_blp_file",
-        "analyze_blp_file",
-        "analyze_jpeg_file",
-        "save_jpeg_rgb",
-        "insert_jpeg_data_into_blp",
+        "save_as_blp_file", #scenario_num=0
+        "analyze_blp_file", #1
+        "analyze_jpeg_file", #2
+        "save_jpeg_rgb", #3
+        "insert_jpeg_data_into_blp", #4
     ]
-    scenario_num=0
+    scenario_num=1
     scenario=scenarios[min(scenario_num,len(scenarios)-1)]
     print(scenario)
+
+    input_name_file_custom=""
+    #input_name_file_custom="input.blp"
+    mipmap_level_jpeg_restoration = 0
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     output_dir = "tempoutput"
@@ -650,7 +668,10 @@ if __name__ == "__main__":
 
     if scenario=="save_as_blp_file":
         
-        input_name="input.jpg"
+        if not(input_name_file_custom):
+            input_name="input.jpg"
+        else:
+            input_name=input_name_file_custom
 
         input_file_path=os.path.join( input_folder, input_name)
         base_name=os.path.splitext(os.path.basename(input_file_path))[0]
@@ -687,7 +708,11 @@ if __name__ == "__main__":
 
     elif scenario=="analyze_blp_file":
 
-        input_name="input.blp"
+        if not(input_name_file_custom):
+            input_name="input.blp"
+        else:
+            input_name=input_name_file_custom
+
         input_file_path=os.path.join( input_folder, input_name)
         base_name=os.path.splitext(os.path.basename(input_file_path))[0]
         output_file_path=os.path.join(output_folder,base_name)
@@ -695,8 +720,8 @@ if __name__ == "__main__":
         analyze_blp_file(input_file_path,output_file_path_json)
 
         #Extract jpeg from blp
-        output_file_path_jpeg=os.path.splitext(output_file_path)[0] + ".jpg"
-        restore_jpeg_from_blp(input_file_path,output_file_path_jpeg)
+        output_file_path_jpeg=os.path.splitext(output_file_path)[0] + f"_mip{mipmap_level_jpeg_restoration}.jpg"
+        restore_jpeg_from_blp(input_file_path,output_file_path_jpeg,mipmap_level_jpeg_restoration)
 
         #Analyze_jpeg_file
         input_file_path=output_file_path_jpeg
@@ -706,14 +731,19 @@ if __name__ == "__main__":
             "total_bytes": total_bytes,
             "markers": markers
         }
-        output_file_path_json=os.path.join(output_folder,base_name+".jpg.json")
+        output_file_path_json=os.path.join(output_folder,base_name+f"_mip{mipmap_level_jpeg_restoration}.jpg.json")
 
         with open(output_file_path_json, 'w') as f:
             json.dump(output_data, f, indent=4)
             print(f"JSON output written to {output_file_path_json}")
 
     elif scenario=="analyze_jpeg_file":
-        input_name="input.jpg"
+
+        if not(input_name_file_custom):
+            input_name="input.jpg"
+        else:
+            input_name=input_name_file_custom
+
         input_file_path=os.path.join( input_folder, input_name)
         base_name=os.path.splitext(os.path.basename(input_file_path))[0]
         output_file_path=os.path.join(output_folder,base_name)
@@ -729,7 +759,12 @@ if __name__ == "__main__":
         print(f"JSON output written to {output_file_path_json}")
 
     elif scenario=="save_jpeg_rgb":
-        input_name="input.png"
+
+        if not(input_name_file_custom):
+            input_name="input.png"
+        else:
+            input_name=input_name_file_custom
+
         input_file_path=os.path.join( input_folder, input_name)
         base_name=os.path.splitext(os.path.basename(input_file_path))[0]
         output_file_path=os.path.join(output_folder,base_name)
@@ -751,7 +786,12 @@ if __name__ == "__main__":
             print(f"JSON output written to {output_file_path_json}")
 
     elif scenario=="insert_jpeg_data_into_blp":
-        input_name="input.jpg"
+
+        if not(input_name_file_custom):
+            input_name="input.jpg"
+        else:
+            input_name=input_name_file_custom
+            
         input_file_path=os.path.join( input_folder, input_name)
         base_name=os.path.splitext(os.path.basename(input_file_path))[0]
 

@@ -101,8 +101,11 @@ METHODDEF(void) return_error_exit(j_common_ptr cinfo)
   longjmp(myerr->setjmp_buffer, 1); /* return control to the setjmp point */
 }
 
-GLOBAL(bool)ConvertToJpg(Buffer &source, Buffer &target, int width, int height, int bytespp, int quality, bool progressive, bool bottomUp)
+GLOBAL(bool)ConvertToJpg(Buffer &source, Buffer &target, int width, int height, int bytespp, int quality, bool progressive, bool optimize_coding, 
+    const JHUFF_TBL* customDcTables, int numDcTables,
+    const JHUFF_TBL* customAcTables, int numAcTables)
 {
+	int bottomUp = 0;
 	int numBytes = 0; //size of jpeg after compression
 	int dummySize = ((width * height * 4) * 2) + 10000; // max possible size
 	char *storage = new char[dummySize]; //storage buffer
@@ -129,6 +132,47 @@ GLOBAL(bool)ConvertToJpg(Buffer &source, Buffer &target, int width, int height, 
 	if (progressive) {
 		jpeg_simple_progression(&cinfo);  // Enable progressive JPEG mode
 	}
+    if (optimize_coding) {
+        cinfo.optimize_coding = TRUE;
+    }
+	 // --- Optional custom DC Huffman table setup ---
+	 if (customDcTables != NULL && numDcTables > 0) {
+        // The library supports up to NUM_HUFF_TBLS (typically 4) tables.
+        int n = (numDcTables < NUM_HUFF_TBLS) ? numDcTables : NUM_HUFF_TBLS;
+        for (int i = 0; i < n; i++) {
+            // Allocate a new Huffman table in the permanent pool.
+            JHUFF_TBL *newHuff = jpeg_alloc_huff_table((j_common_ptr)&cinfo);
+            if (newHuff == NULL) {
+                jpeg_destroy_compress(&cinfo);
+                delete[] storage;
+                return false;
+            }
+            // Copy custom data into the new table.
+            memcpy(newHuff->bits, (customDcTables + i)->bits, sizeof(newHuff->bits));
+            memcpy(newHuff->huffval, (customDcTables + i)->huffval, sizeof(newHuff->huffval));
+            newHuff->sent_table = FALSE;  // Mark as not yet output
+            // Assign to the corresponding DC table pointer.
+            cinfo.dc_huff_tbl_ptrs[i] = newHuff;
+        }
+    }
+    // --- Optional custom AC Huffman table setup ---
+    if (customAcTables != NULL && numAcTables > 0) {
+        int n = (numAcTables < NUM_HUFF_TBLS) ? numAcTables : NUM_HUFF_TBLS;
+        for (int i = 0; i < n; i++) {
+            JHUFF_TBL *newHuff = jpeg_alloc_huff_table((j_common_ptr)&cinfo);
+            if (newHuff == NULL) {
+                jpeg_destroy_compress(&cinfo);
+                delete[] storage;
+                return false;
+            }
+            memcpy(newHuff->bits, (customAcTables + i)->bits, sizeof(newHuff->bits));
+            memcpy(newHuff->huffval, (customAcTables + i)->huffval, sizeof(newHuff->huffval));
+            newHuff->sent_table = FALSE;
+            cinfo.ac_huff_tbl_ptrs[i] = newHuff;
+        }
+    }
+    // --- End optional custom Huffman table setup ---
+
 	jpeg_start_compress(&cinfo, TRUE);
 	int stride = width * bytespp;
 

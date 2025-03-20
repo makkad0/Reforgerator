@@ -3,7 +3,7 @@ import os
 import __main__
 from pathlib import Path
 import appdirs
-import var.global_var as gv
+import vars.global_var as gv
 
 def get_exe_dir():
     if getattr(sys, 'frozen', False):

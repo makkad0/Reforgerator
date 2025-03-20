@@ -3,8 +3,8 @@ import os
 import math
 from PIL import Image
 
-import var.global_var as gv
-import var.sizes as cs
+import vars.global_var as gv
+import vars.sizes as cs
 
 from src.localisation import get_local_text
 from gui.gui_file_systems import load_pil_image_wxmessagebox

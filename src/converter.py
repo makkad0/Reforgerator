@@ -3,8 +3,8 @@ import numpy as np
 import io
 import os
 import math
-import tempfile
-import var.global_var as gv
+import zlib
+import vars.global_var as gv
 from src.blp1_JPEG_encoder import export_blp1_jpeg
 from src.dds_dxt_encoder import export_dds_dxt
 from src.system import get_data_subdir
@@ -298,7 +298,7 @@ def apply_frame(input_image: Image.Image, size_option: str = "size_256x256", sty
     return resized_image
 
 
-def apply_format(input_image: Image.Image, format_option: str = "format_dds", format_suboption_dict: dict = {}):
+def apply_format(input_image: Image.Image, format_option: str = "format_dds", format_suboption_dict: dict = {}, only_preview: bool = False):
 
     buffer = io.BytesIO()
 
@@ -341,15 +341,44 @@ def apply_format(input_image: Image.Image, format_option: str = "format_dds", fo
         else:
             num_mips=None 
         if "blp_progressive" in format_suboption_dict:
-            progressive=format_suboption_dict["blp_progressive"]
+            best_compression=format_suboption_dict["blp_progressive"]
         else:
-            progressive=False
+            best_compression=False
 
         try:
-            export_blp1_jpeg(input_image,buffer,quality = quality, num_mips = num_mips, progressive = progressive)
+            if only_preview or (not best_compression):
+                export_blp1_jpeg(input_image,buffer,quality = quality, num_mips = num_mips, progressive = False, optimize_coding = False, force_bgra = True)
+            else:
+                # Try all 8 variants (combinations of progressive, optimize_coding, force_bgra)
+                best_variant_bytes = None
+                best_variant_options = None
+                best_compressed_size = None
+                for prog in [True, False]:
+                    for opt in [True, False]:
+                        for bgra in [True, False]:
+                            temp_buffer = io.BytesIO()
+                            export_blp1_jpeg(
+                                input_image,
+                                temp_buffer,
+                                quality=quality,
+                                num_mips=num_mips,
+                                progressive=prog,
+                                optimize_coding=opt,
+                                force_bgra=bgra
+                            )
+                            variant_bytes = temp_buffer.getvalue()
+                            # Compress the variant output with zlib to gauge its “weight.”
+                            comp_bytes = zlib.compress(variant_bytes,5)
+                            comp_size = len(comp_bytes)
+                            # Choose the variant with the smallest compressed size.
+                            if best_compressed_size is None or comp_size < best_compressed_size:
+                                best_compressed_size = comp_size
+                                best_variant_bytes = variant_bytes
+                                best_variant_options = (prog, opt, bgra)
+                # Write the best variant bytes to the final buffer.
+                buffer.write(best_variant_bytes)
         except Exception as e:
             raise IOError(f"BLP saving failed: {e}")
-
     elif format_option == "format_tga":
         # For TGA we use Pillow's native support.
         compression = "rle"

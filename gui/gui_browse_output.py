@@ -1,6 +1,6 @@
 import os
 import wx
-import var.global_var as gv
+import vars.global_var as gv
 from src.generator import set_output_folder
 from src.localisation import get_local_text
 

@@ -1,12 +1,12 @@
 # REFORGERATOR
 
-**Date:** `19, March 2025`  
-**Version:** `1.1.2`  
+**Date:** `21, March 2025`  
+**Version:** `1.1.3`  
 **License:** MIT License (See [LICENSE](LICENSE) file)  
 **Author:** `Makkad`  
 
 **Download the latest .exe build:** 
-- Link 1 [Reforgerator_1.1.2.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
+- Link 1 [Reforgerator_1.1.3.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
 
 ---
 
@@ -197,13 +197,16 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 
 ### 3.1. CHANGELOG
 
-### 1.1.2 - 18, March 2025
+#### 1.1.3 - 21, March 2025
+- Replaced the progressive encoding option for BLP export with the Best Compressibility option, which tests multiple encoding settings and selects the one that results in the smallest file size after zlib compression, improving storage efficiency.
+
+#### 1.1.2 - 18, March 2025
 - Updated the 'About' section.
 
-### 1.1.1 - 16, March 2025
+#### 1.1.1 - 16, March 2025
 - Optimized performance.
 
-### 1.1.0 - 15, March 2025
+#### 1.1.0 - 15, March 2025
 - Added support for PSD input, including RGBA layers, opacity, and masks in regular blend mode.
 - Introduced BLP1 JPEG handling with non-opaque alpha channels for both input and output.
 - Implemented configurable input format filtering to process specific file types.
@@ -215,7 +218,7 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 - Expanded Drag-and-Drop functionality to cover the entire program window.
 - Added simplified Chinese localization (`local_zh-CN.txt`).
 
-### 1.0.0 - 08, March 2025
+#### 1.0.0 - 08, March 2025
 - Public release.
 
 ---

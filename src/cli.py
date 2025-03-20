@@ -1,8 +1,8 @@
 import argparse
 import sys
 import os
-import var.global_var as gv
-import var.var_for_init as iv
+import vars.global_var as gv
+import vars.var_for_init as iv
 import src.config_manager as config_manager
 import src.localisation as localisation
 from src.generator import generate_images

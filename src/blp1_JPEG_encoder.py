@@ -287,8 +287,67 @@ def replace_marker(jpeg_bytes: bytes, marker_to_replace: bytes, new_marker_data:
     return bytes(result)
 
 
+def extract_huff_table(jpeg_bytes: bytes, table_class: int, table_id: int) -> bytes:
+    """
+    Extract the first DHT marker from jpeg_bytes with the given table_class (0 for DC, 1 for AC)
+    and table_id, and reassemble it into a full JHUFF_TBL structure as a bytes object.
+    
+    The JHUFF_TBL structure is assumed to consist of:
+      - bits: 17 unsigned bytes (bits[0] unused, bits[1..16] from the marker)
+      - huffval: 256 unsigned bytes (symbols, padded with zeros)
+      - sent_table: 1 unsigned byte (set to 0)
+    Total size: 17 + 256 + 1 = 274 bytes (if boolean is 1 byte).
+    """
+    i = 0
+    # Table header: high nibble = table_class, low nibble = table_id
+    target_header = (table_class << 4) | (table_id & 0x0F)
+    while i < len(jpeg_bytes) - 1:
+        if jpeg_bytes[i] == 0xFF and jpeg_bytes[i+1] == 0xC4:
+            i += 2  # Skip marker bytes
+            if i + 2 > len(jpeg_bytes):
+                break
+            # The next two bytes indicate the segment length (includes these two bytes)
+            seg_length = int.from_bytes(jpeg_bytes[i:i+2], byteorder='big')
+            dht_data_start = i + 2
+            dht_data_end = dht_data_start + seg_length - 2
+            if dht_data_end > len(jpeg_bytes):
+                break
+            segment = jpeg_bytes[dht_data_start:dht_data_end]
+            # The first byte is the table info.
+            if segment[0] == target_header:
+                # There should be at least 1 (table info) + 16 (bits counts) bytes.
+                if len(segment) < 17:
+                    raise ValueError("DHT segment too short for bits array")
+                # Extract counts from bytes 1 to 16.
+                bits_counts = list(segment[1:17])
+                total_symbols = sum(bits_counts)
+                if len(segment) < 1 + 16 + total_symbols:
+                    raise ValueError("DHT segment does not contain enough symbol bytes")
+                symbols = list(segment[17:17+total_symbols])
+                # Build full bits array: bits[0] is unused (set to 0)
+                jhuff_bits = [0] + bits_counts
+                # Build full huffval array: pad symbols with zeros to 256 bytes.
+                jhuff_huffval = symbols + [0]*(256 - len(symbols))
+                sent_table = 0  # FALSE
+                fmt = "17B256B1B"
+                return struct.pack(fmt, *(jhuff_bits + jhuff_huffval + [sent_table]))
+            i = dht_data_end
+        else:
+            i += 1
+    raise ValueError(f"No DHT marker found for table_class {table_class} table_id {table_id}")
 
-def export_blp1_jpeg(im: Image.Image, fp: IO[bytes], quality: int = 95, num_mips: int = None, progressive: bool = False) -> None:
+def extract_huff_tables(jpeg_bytes: bytes, table_id: int = 0) -> tuple[bytes, bytes]:
+    """
+    Extract the first DC and AC Huffman tables (for the given table_id) from the JPEG byte stream.
+    
+    Returns:
+        tuple: (dc_table, ac_table) as bytes objects each representing a full JHUFF_TBL.
+    """
+    dc_table = extract_huff_table(jpeg_bytes, table_class=0, table_id=table_id)
+    ac_table = extract_huff_table(jpeg_bytes, table_class=1, table_id=table_id)
+    return dc_table, ac_table
+
+def export_blp1_jpeg(im: Image.Image, fp: IO[bytes], quality: int = 95, num_mips: int = None, progressive: bool = False, optimize_coding: bool = False, force_bgra: bool = True) -> None:
     """
     Export a Pillow image (in any mode) as a BLP1 file using CONTENT_JPEG,
     with a full mipmap chain.
@@ -322,16 +381,18 @@ def export_blp1_jpeg(im: Image.Image, fp: IO[bytes], quality: int = 95, num_mips
     """
     num_mips_max=16
     num_mips_false=8
+    transp_flag=0
     # Convert input image to BGRA (using CMYK-style treatment for 4-canal JPEG)
     transparency = has_transparency(im)
     if transparency:
+        transp_flag=8
+        force_bgra = True
+    if force_bgra:
         # Ensure we have an RGBA image
         im_bgra = RGBA_to_BGRA(im)
-        transp_flag=8
     else:
         im_bgra=RGB_to_YMCX(im)
-        transp_flag=0
-
+        
     if num_mips is None:
         num_mips=num_mips_max
     
@@ -344,22 +405,27 @@ def export_blp1_jpeg(im: Image.Image, fp: IO[bytes], quality: int = 95, num_mips
     
     # Encode each mipmap level to JPEG (in memory)
     jpeg_datas = []
+    count_mip_level = 0
+    dct = None
+    act = None
     for mip in mips:
-        if transparency:
+        if force_bgra:
             width, height = mip.size
             #Convert image to NumPy array (shape: height x width x 4)
             bgra_bytes = np.array(mip).tobytes()
-            data = jpgw.compress_bgra_to_jpeg(bgra_bytes, width, height, quality, progressive)
+            data = jpgw.compress_bgra_to_jpeg(bgra_bytes, width, height, quality, progressive, optimize_coding, dct, act)
+            if False:
+                dct, act = extract_huff_tables(data, table_id=0)
             data = move_sof_before_sos(data)
         else:
             buf = io.BytesIO()
-            mip.save(buf, format="JPEG", quality=quality,progressive=progressive, keep_rgb=True, optimize=False)
+            mip.save(buf, format="JPEG", quality=quality,progressive=progressive, keep_rgb=True, optimize=optimize_coding)
             data = buf.getvalue()
             data = remove_app14(data)
             if not(progressive):
                 data = move_sof_before_sos(data)
         jpeg_datas.append(data)
-
+        count_mip_level +=1
     # Compute common JPEG header (up to 624 bytes)
     max_common_header=624 
     common_header = scan_common_header(jpeg_datas, max_common_header)

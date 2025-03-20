@@ -1,6 +1,6 @@
 import wx
-import var.global_var as gv
-import var.sizes as cs
+import vars.global_var as gv
+import vars.sizes as cs
 from src.localisation import get_local_text
 
 # Custom popup using wx.ComboPopup with a CheckListBox inside a dedicated subpanel.

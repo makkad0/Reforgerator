@@ -3,8 +3,8 @@ import math
 import threading
 from PIL import Image
 
-import var.global_var as gv
-import var.sizes as cs
+import vars.global_var as gv
+import vars.sizes as cs
 
 from src.converter import load_pil_image
 from src.converter import apply_frame
@@ -134,7 +134,7 @@ class OutputPreviewImage(wx.Panel):
                             processed_img = apply_frame(image, size_option, style_option, border_option,extras_suboption_dict)
                             # Now, for each available format option, further process the image.
                             for format_option in true_format_options:
-                                final_img = apply_format(processed_img, format_option,format_suboption_dict)
+                                final_img = apply_format(processed_img, format_option,format_suboption_dict,True)
                                 final_img = bufferbytedata_to_pilimage(final_img,gv.OUTPUT_FILE_FORMATS[format_option])
                                 final_img = final_img.resize((sub_w, sub_h), Image.LANCZOS)
                                 # Compute grid cell coordinates.

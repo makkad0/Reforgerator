@@ -1,7 +1,7 @@
 import wx
 import threading
 
-import var.sizes as cs
+import vars.sizes as cs
 
 from gui.gui_tooltip import HoverOverlay
 from gui.gui_browse_output import gui_browse_output

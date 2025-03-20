@@ -1,5 +1,5 @@
 import wx
-import var.sizes as cs
+import vars.sizes as cs
 from src.localisation import get_tooltip_text
 
 

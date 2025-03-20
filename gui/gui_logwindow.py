@@ -1,7 +1,7 @@
 import wx
 import wx.richtext as rt
 import datetime
-import var.sizes as cs
+import vars.sizes as cs
 import src.log as lg
 
 

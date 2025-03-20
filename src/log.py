@@ -1,5 +1,5 @@
 import wx
-import var.log_var as lv
+import vars.log_var as lv
 from src.localisation import get_local_text
 
 

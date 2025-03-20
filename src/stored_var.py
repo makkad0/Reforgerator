@@ -1,5 +1,5 @@
 import configparser
-import var.global_var as gv
+import vars.global_var as gv
 import os
 
 def process_folder(input_folder,input_suboption_dict,multifolder_regime=False):

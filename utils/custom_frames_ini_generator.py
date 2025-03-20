@@ -2,7 +2,7 @@ import sys,os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.custom_frames import get_ini_files_string, parse_ini_files_from_string, OPTION_START_WORD
 import configparser
-import var.global_var as gv
+import vars.global_var as gv
 
 def generate_ini_from_frame(frame, output_filepath):
     """

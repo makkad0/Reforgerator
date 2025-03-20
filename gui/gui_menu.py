@@ -5,7 +5,7 @@ from gui.gui_about import AboutDialog
 from gui.gui_menu_customframes import CustomFramesMenu
 from src.localisation import update_localisation,get_local_text
 from src.system import get_data_subdir
-import var.global_var as gv
+import vars.global_var as gv
 
 class TopMenu:
     def update_menu_state(self):

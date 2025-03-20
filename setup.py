@@ -2,7 +2,7 @@ import os
 import shutil
 import subprocess
 import pyminizip
-import var.global_var as gv # Import global variables (PROGRAM_NAME, PROGRAM_VERSION)
+import vars.global_var as gv # Import global variables (PROGRAM_NAME, PROGRAM_VERSION)
 import datetime
 import textwrap
 import re

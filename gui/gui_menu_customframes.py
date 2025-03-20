@@ -1,5 +1,5 @@
-import var.var_for_init as iv
-import var.global_var as gv
+import vars.var_for_init as iv
+import vars.global_var as gv
 import wx
 from src.localisation import get_local_text
 from src.custom_frames import store_custom_frame_as_option

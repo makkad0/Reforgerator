@@ -2,7 +2,6 @@ import io
 import tempfile
 import wx
 import os
-from PIL import Image as PILImage
 from src.localisation import get_local_text
 from src.converter import load_pil_image
 

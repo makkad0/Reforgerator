@@ -1,7 +1,7 @@
 import configparser
 import os
 from pathlib import Path
-import var.global_var as gv
+import vars.global_var as gv
 from src.system import get_data_subdir,get_special_config_dir
 
 

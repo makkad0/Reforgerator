@@ -1,8 +1,8 @@
 import os
 import re
 from typing import Any, Optional
-import var.global_var as gv
-import var.var_for_init as iv
+import vars.global_var as gv
+import vars.var_for_init as iv
 from src.converter import load_pil_image
 from src.converter import apply_frame
 from src.converter import apply_format
