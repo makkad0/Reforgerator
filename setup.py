@@ -6,6 +6,12 @@ import vars.global_var as gv # Import global variables (PROGRAM_NAME, PROGRAM_VE
 import datetime
 import textwrap
 import re
+from setuptools import setup, Command
+import sys
+import sysconfig
+
+# List your C module directories relative to your external directory
+C_MODULES = ['imagecompress', 'jpgwrapper','packbits' ]  # Adjust these to your module directories
 
 # Names
 program_name = gv.PROGRAM_NAME.replace(" ", "_")
@@ -49,6 +55,10 @@ output_zip_abs =os.path.join(dist_folder_abs,zip_file_name)
 # We assume this script is run from the folder in which main.spec and gv.py are located.
 # For safety, we use the absolute path of this script's directory to ensure we only operate within it.
 def main():
+    
+    # Optional) Build c-modules from external, if not presented
+    BuildCModules()
+
     # 0)
     create_readme(readme_md_template_file_abs,README_md_file,False)
     create_readme(readme_txt_template_file_abs,README_txt_file,True)
@@ -90,6 +100,19 @@ def main():
     create_zip_archive(dist_folder_abs, output_zip_abs, password)
     print(f"Build process completed. Archive created: {output_zip_abs}")
 
+def BuildCModules():
+    for module in C_MODULES:
+        # Define the expected filename pattern.
+        expected_ext = sysconfig.get_config_var("EXT_SUFFIX")
+        module_dir = os.path.join(base_dir_abs,gv.DIRS["external"], module)
+        # Look for any built extension file in the module directory
+        built_files = [f for f in os.listdir(module_dir) if f.endswith(expected_ext)]
+        if built_files:
+            print(f"Found built file(s) in {module}: {built_files}")
+        else:
+            print(f"No built file found for {module}. Building...")
+            subprocess.check_call([sys.executable, 'setup.py', 'build_ext', '--inplace'],
+                                    cwd=module_dir)
 
 def update_spec_file(spec_file_template_abs,spec_file_abs):
     """Update the main.spec file to modify the EXE name."""

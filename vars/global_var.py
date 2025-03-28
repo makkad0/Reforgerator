@@ -10,6 +10,7 @@ DIRS = {
     "frames": "frames",
     "custom_frames":"frames\\custom_frames",
     "output":"output",
+    "external": "external",
 }
 FILE_DEF_CONFIG = "default.cfg"
 FILE_USER_CONFIG = "user_config.cfg"
