@@ -1,12 +1,12 @@
 # REFORGERATOR
 
 **Date:** `06, May 2025`  
-**Version:** `1.1.4`  
+**Version:** `1.1.5`  
 **License:** MIT License (See [LICENSE](LICENSE) file)  
 **Author:** `Makkad`  
 
 **Download the latest .exe build:** 
-- Link 1 [Reforgerator_1.1.4.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
+- Link 1 [Reforgerator_1.1.5.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
 
 ---
 
@@ -197,6 +197,9 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 
 ### 3.1. CHANGELOG
 
+#### 1.1.5 - 07, May 2025
+The frame BTN-classic-sd-256 by author Aldeia is now used by default for BTN frames in the Classic style at both 128x128 and 256x256 sizes. The previous Classic HD 2.0 frame remains available via custom frame selection.
+
 #### 1.1.4 - 06, May 2025
 - Added a custom frame BTN-classic-sd-256 by author Aldeia, replicating the style of the BTN Classic SD frame, but in a resolution of 256x256 (which differs from the currently used 256x256 frames that use the Classic HD style).
 
@@ -229,7 +232,7 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 ### 3.2. CREDITS
 
 🎖 **Thanks to:**  
-`RvzerBro (testing), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom (pytoshop), Barorque (IconTemplateReforged.psd), Shadow Daemon (for the frame templates from Button Manager and inspiration), Aldeia (BTNCSD frame)`
+`RvzerBro (testing), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom (pytoshop), Barorque (IconTemplateReforged.psd), Shadow Daemon (for the frame templates from Button Manager and inspiration), Aldeia (Classic-BTN)`
 
 ---
 

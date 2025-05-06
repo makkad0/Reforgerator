@@ -3,7 +3,7 @@
 ══════════════════════════════════════════════════════════════════════════════
 
 Date      : 06, May 2025
-Version   : 1.1.4
+Version   : 1.1.5
 License   : MIT License (See LICENSE file)
 Author    : Makkad
 
@@ -190,6 +190,11 @@ handled. To deal with CLI output, use one of the following methods:
 ──────────────────────────────────────────────────────────────────────────────
  3.1. CHANGELOG
 ──────────────────────────────────────────────────────────────────────────────
+#### 1.1.5 - 07, May 2025
+The frame BTN-classic-sd-256 by author Aldeia is now used by default for BTN
+frames in the Classic style at both 128x128 and 256x256 sizes. The previous
+Classic HD 2.0 frame remains available via custom frame selection.
+
 #### 1.1.4 - 06, May 2025
 - Added a custom frame BTN-classic-sd-256 by author Aldeia, replicating the
   style of the BTN Classic SD frame, but in a resolution of 256x256 (which
@@ -233,7 +238,7 @@ handled. To deal with CLI output, use one of the following methods:
 🎖 Thanks to:
    RvzerBro (testing), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom
    (pytoshop), Barorque (IconTemplateReforged.psd), Shadow Daemon (for the frame
-   templates from Button Manager and inspiration), Aldeia (BTNCSD frame)
+   templates from Button Manager and inspiration), Aldeia (Classic-BTN)
 
 ──────────────────────────────────────────────────────────────────────────────
  3.2. SUPPORT
