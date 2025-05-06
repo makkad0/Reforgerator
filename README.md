@@ -1,12 +1,12 @@
 # REFORGERATOR
 
-**Date:** `28, March 2025`  
-**Version:** `1.1.3`  
+**Date:** `06, May 2025`  
+**Version:** `1.1.4`  
 **License:** MIT License (See [LICENSE](LICENSE) file)  
 **Author:** `Makkad`  
 
 **Download the latest .exe build:** 
-- Link 1 [Reforgerator_1.1.3.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
+- Link 1 [Reforgerator_1.1.4.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
 
 ---
 
@@ -197,6 +197,9 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 
 ### 3.1. CHANGELOG
 
+#### 1.1.4 - 06, May 2025
+- Added a custom frame BTN-classic-sd-256 by author Aldeia, replicating the style of the BTN Classic SD frame, but in a resolution of 256x256 (which differs from the currently used 256x256 frames that use the Classic HD style).
+
 #### 1.1.3 - 21, March 2025
 - Replaced the progressive encoding option for BLP export with the Best Compressibility option, which tests multiple encoding settings and selects the one that results in the smallest file size after zlib compression, improving storage efficiency.
 
@@ -226,7 +229,7 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 ### 3.2. CREDITS
 
 🎖 **Thanks to:**  
-`RvzerBro (testing), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom (pytoshop), Barorque (IconTemplateReforged.psd), Shadow Daemon (for the frame templates from Button Manager and inspiration)`
+`RvzerBro (testing), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom (pytoshop), Barorque (IconTemplateReforged.psd), Shadow Daemon (for the frame templates from Button Manager and inspiration), Aldeia (BTNCSD frame)`
 
 ---
 
