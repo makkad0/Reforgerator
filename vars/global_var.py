@@ -1,5 +1,5 @@
 PROGRAM_NAME="Reforgerator"
-PROGRAM_VERSION="1.1.5"
+PROGRAM_VERSION="1.2.0"
 PROGRAM_AUTHOR="Makkad"
 PROGRAM_FULLNAME=PROGRAM_NAME+" "+PROGRAM_VERSION+" by "+PROGRAM_AUTHOR
 DIRS = {
@@ -18,10 +18,13 @@ FRAMES_LISTFILE = {
     "size_64x64": "64x64",
     "size_128x128": "128x128",
     "size_256x256": "256x256",
-    "style_sd": "Classic",
-    "style_hd": "Reforged",
-    "OPTIONS_EXTRAS": "Blackframe",
+    "size_original": "Original",
+    "style_sd": "ClassicSD",
+    "style_hd": "ReforgedHD",
+    "style_20": "ClassicHD2.0",
+    "OPTIONS_EXTRAS": "Extra",
     "extras_blackframe": "Blackframe_big",
+    "extras_heroframe": "Heroframe",
     "border_button": "BTN",
     "border_disabled": "DISBTN",
     "border_passive": "PAS",
@@ -71,6 +74,7 @@ OPTIONS_STYLE = {
     "options": [
         "style_sd",
         "style_hd",
+        "style_20",
     ],
     "update_preview": True,
     "update_generate": True,
@@ -81,6 +85,7 @@ OPTIONS_EXTRAS = {
     "options": [
         "extras_alpha",
         "extras_blackframe",
+        "extras_heroframe",
         "extras_crop",
     ],
     "update_preview": True,
@@ -108,6 +113,11 @@ OPTIONS_SIZE = {
     ],
     "update_preview": True,
     "update_generate": True,
+}
+OPTION_SIZE_ORIGINAL = "size_original"
+OPTIONS_SIZE_EXTENDED = {
+    **OPTIONS_SIZE,  # copy all keys/values
+    "options": OPTIONS_SIZE["options"] + [OPTION_SIZE_ORIGINAL]
 }
 SIZE_MAPPING = {
     "size_64x64": (64, 64),
@@ -211,6 +221,13 @@ OUTPUT_FILE_FORMATS={
      "format_blp" : ".blp",
      "format_tga" : ".tga",
      "format_png" : ".png",
+}
+OPTIONS_MISC={ "section": "OPTIONS_MISC",  # Section name in the config file.
+    "title": "misc_title", # Section name in localisation.
+    "options": [
+        "reforged_hd_disabled_saturation",
+        "reforged_hd_disabled_contrast",
+    ],
 }
 OUTPUT_FOLDER_DEFAULT="outputs"
 REMOVE_COLORS_THRESHOLD = 1

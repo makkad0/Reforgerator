@@ -2,8 +2,8 @@
                           REFORGERATOR
 ══════════════════════════════════════════════════════════════════════════════
 
-Date      : 06, May 2025
-Version   : 1.1.5
+Date      : 19, August 2025
+Version   : 1.2.0
 License   : MIT License (See LICENSE file)
 Author    : Makkad
 
@@ -153,7 +153,8 @@ handled. To deal with CLI output, use one of the following methods:
       settings and default values. Each additional section should include:
          - size    : The frame size (valid options: size_64x64, size_128x128,
            size_256x256).
-         - style   : The frame style (valid options: style_hd, style_sd).
+         - style   : The frame style (valid options: style_hd, style_sd,
+           style_20).
       Optional fields:
          - path    : The path to the frame image file. If omitted, a default
            path is used (e.g., `main_folder/256x256/Reforged/prefix.extension`).
@@ -190,6 +191,20 @@ handled. To deal with CLI output, use one of the following methods:
 ──────────────────────────────────────────────────────────────────────────────
  3.1. CHANGELOG
 ──────────────────────────────────────────────────────────────────────────────
+#### 1.2.0 - 19, August 2025
+- Added support for preserving the original output size, allowing files to be
+  saved in their native dimensions.
+- Introduced a option for selecting the Classic HD 2.0 style, alongside the
+  existing Classic SD and Reforged HD styles.
+- Added configuration settings to control desaturation and contrast reduction
+  for Disabled icons in the Reforged HD style via the config file. The default
+  contrast value has been adjusted from 0.90 to 0.82.
+- Added an extra option to apply Hero Glow (the effect used in icons of standard
+  heroes) for Classic graphics.
+- Enabled the use of an extra black border overlay for any style.
+- Added a new Autocast icon for Classic SD (128x128 and 256x256). Thanks to
+  Narga163 for providing the icon.
+
 #### 1.1.5 - 06, May 2025
 - The frame BTN-classic-sd-256 by author Aldeia is now used by default for BTN
   frames in the Classic style at both 128x128 and 256x256 sizes. The previous
@@ -238,7 +253,8 @@ handled. To deal with CLI output, use one of the following methods:
 🎖 Thanks to:
    RvzerBro (testing), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom
    (pytoshop), Barorque (IconTemplateReforged.psd), Shadow Daemon (for the frame
-   templates from Button Manager and inspiration), Aldeia (Classic-BTN)
+   templates from Button Manager and inspiration), Aldeia (Classic-BTN),
+   Narga163 (Classic-ATC)
 
 ──────────────────────────────────────────────────────────────────────────────
  3.2. SUPPORT

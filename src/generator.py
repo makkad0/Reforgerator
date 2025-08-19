@@ -214,7 +214,7 @@ def generate_images(input_data:CurrentSelection = {}, info_stream: Optional[Any]
     format_suboption_dict = input_data.recieve_suboptions([gv.DDS_SETTINGS, gv.BLP_SETTINGS,gv.TGA_SETTINGS])
     output_suboption_dict = input_data.recieve_suboptions([gv.OPTIONS_OUTPUT,gv.OPTIONS_OUTPUT_PATH])
     extras_suboption_dict = input_data.recieve_suboptions([gv.OPTIONS_EXTRAS])
-
+    misc_suboption_dict   = input_data.recieve_suboptions([gv.OPTIONS_MISC])
     # Try to set and validate the output folder. Process any errors accordingly.
     try:
         output_folder = set_output_folder(output_suboption_dict)
@@ -243,7 +243,7 @@ def generate_images(input_data:CurrentSelection = {}, info_stream: Optional[Any]
                         # Load the image.
                         image = load_pil_image(path)
                         # Apply the frame transformation.
-                        image = apply_frame(image, size_option, style_option, border_option, extras_suboption_dict)
+                        image = apply_frame(image, size_option, style_option, border_option, extras_suboption_dict, misc_suboption_dict)
                         # For each available format option, apply further processing.
                         for format_option in true_format_options:
                             try:

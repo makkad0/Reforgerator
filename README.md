@@ -1,12 +1,12 @@
 # REFORGERATOR
 
-**Date:** `06, May 2025`  
-**Version:** `1.1.5`  
+**Date:** `19, August 2025`  
+**Version:** `1.2.0`  
 **License:** MIT License (See [LICENSE](LICENSE) file)  
 **Author:** `Makkad`  
 
 **Download the latest .exe build:** 
-- Link 1 [Reforgerator_1.1.5.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
+- Link 1 [Reforgerator_1.2.0.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
 
 ---
 
@@ -161,7 +161,7 @@ Custom frames allow you to define personalized frame layouts via `.ini` configur
 
 3. Additional sections specify detailed options for a given size and style. Each additional section should include:
    - **size**: The frame size (valid options: `size_64x64`, `size_128x128`, `size_256x256`).
-   - **style**: The frame style (valid options: `style_hd`, `style_sd`).
+   - **style**: The frame style (valid options: `style_hd`, `style_sd`, `style_20`).
 
    _Optional fields:_
    - **path**: The path to the frame image file. If omitted, a default path is used (e.g., `main_folder/256x256/Reforged/prefix.extension`).
@@ -196,6 +196,14 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 ## 3. MISCELLANEOUS
 
 ### 3.1. CHANGELOG
+
+#### 1.2.0 - 19, August 2025
+- Added support for preserving the original output size, allowing files to be saved in their native dimensions.
+- Introduced a option for selecting the Classic HD 2.0 style, alongside the existing Classic SD and Reforged HD styles.
+- Added configuration settings to control desaturation and contrast reduction for Disabled icons in the Reforged HD style via the config file. The default contrast value has been adjusted from 0.90 to 0.82.
+- Added an extra option to apply Hero Glow (the effect used in icons of standard heroes) for Classic graphics.
+- Enabled the use of an extra black border overlay for any style.
+- Added a new Autocast icon for Classic SD (128x128 and 256x256). Thanks to Narga163 for providing the icon.
 
 #### 1.1.5 - 06, May 2025
 - The frame BTN-classic-sd-256 by author Aldeia is now used by default for BTN frames in the Classic style at both 128x128 and 256x256 sizes. The previous Classic HD 2.0 frame remains available via custom frame selection.
@@ -232,7 +240,7 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 ### 3.2. CREDITS
 
 🎖 **Thanks to:**  
-`RvzerBro (testing), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom (pytoshop), Barorque (IconTemplateReforged.psd), Shadow Daemon (for the frame templates from Button Manager and inspiration), Aldeia (Classic-BTN)`
+`RvzerBro (testing), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom (pytoshop), Barorque (IconTemplateReforged.psd), Shadow Daemon (for the frame templates from Button Manager and inspiration), Aldeia (Classic-BTN), Narga163 (Classic-ATC)`
 
 ---
 

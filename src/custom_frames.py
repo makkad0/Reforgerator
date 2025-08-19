@@ -7,7 +7,6 @@ from src.system import get_data_subdir
 
 OPTION_START_WORD = "section"
 
-
 def init_CUSTOM_FRAMES_DICT(dict: dict = None):
     # Ensure we're modifying the global variable
     if dict:
@@ -220,7 +219,6 @@ def repair_ini_file(parsed):
     main_folder = parsed.get("main_folder")
     prefix = parsed.get("prefix")
     extension_value = parsed.get("extension_value")
-    
     # Build a temporary dict for additional sections keyed by (style, size)
     options_dict = {}
     for key, value in list(parsed.items()):
@@ -443,6 +441,7 @@ def parse_ini_files_from_string(files_string):
                 parsed["id"] = unique_id
                 used_ids.add(unique_id)
                 results[unique_id] = parsed
+                
     return results
 
 def store_custom_frame_as_option(input_data,custom_frame_id_list,remove:bool = False):

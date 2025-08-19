@@ -128,7 +128,7 @@ On Windows, this application is recognized as a non-console application. Standar
 
    3. Additional sections specify detailed options for a given size and style. If omitted, these sections are generated automatically from the provided settings and default values. Each additional section should include:
          - size    : The frame size (valid options: size_64x64, size_128x128, size_256x256).
-         - style   : The frame style (valid options: style_hd, style_sd).
+         - style   : The frame style (valid options: style_hd, style_sd, style_20).
       Optional fields:
          - path    : The path to the frame image file. If omitted, a default path is used (e.g., `main_folder/256x256/Reforged/prefix.extension`). Both absolute and relative paths are allowed.
          - im_pos  : The image position as a tuple (x, y), representing the upper-left corner. Defaults to (0,0).

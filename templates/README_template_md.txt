@@ -161,7 +161,7 @@ Custom frames allow you to define personalized frame layouts via `.ini` configur
 
 3. Additional sections specify detailed options for a given size and style. Each additional section should include:
    - **size**: The frame size (valid options: `size_64x64`, `size_128x128`, `size_256x256`).
-   - **style**: The frame style (valid options: `style_hd`, `style_sd`).
+   - **style**: The frame style (valid options: `style_hd`, `style_sd`, `style_20`).
 
    _Optional fields:_
    - **path**: The path to the frame image file. If omitted, a default path is used (e.g., `main_folder/256x256/Reforged/prefix.extension`).

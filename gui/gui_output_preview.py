@@ -89,6 +89,26 @@ class OutputPreviewImage(wx.Panel):
         thread.setDaemon(True)
         thread.start()
 
+
+    def fit_center_transparent(self, img: Image.Image, box_w: int, box_h: int) -> Image.Image:
+        w, h = img.size
+        if w == 0 or h == 0:
+            return Image.new("RGBA", (box_w, box_h), (0, 0, 0, 0))
+
+        scale = min(box_w / w, box_h / h)
+        new_w = max(1, int(round(w * scale)))
+        new_h = max(1, int(round(h * scale)))
+
+        resized = img.resize((new_w, new_h), Image.LANCZOS)
+        if resized.mode != "RGBA":
+            resized = resized.convert("RGBA")
+
+        canvas = Image.new("RGBA", (box_w, box_h), (0, 0, 0, 0))
+        x = (box_w - new_w) // 2
+        y = (box_h - new_h) // 2
+        canvas.paste(resized, (x, y), resized)
+        return canvas
+
     def calculate_output_images_grid_preview(self):
         """
         Performs the heavy grid preview computation.
@@ -120,6 +140,8 @@ class OutputPreviewImage(wx.Panel):
         true_size_options, true_style_options, true_border_options, true_format_options = current_selection.recieve_true_variations()
         format_suboption_dict = current_selection.recieve_suboptions([gv.DDS_SETTINGS, gv.BLP_SETTINGS,gv.TGA_SETTINGS])
         extras_suboption_dict = current_selection.recieve_suboptions([gv.OPTIONS_EXTRAS])
+        misc_suboption_dict   = current_selection.recieve_suboptions([gv.OPTIONS_MISC])
+
         j=0
 
         # Iterate over each image (up to max_images).
@@ -131,12 +153,17 @@ class OutputPreviewImage(wx.Panel):
                     for border_option in true_border_options:
                         try:
                             # Apply frame transformation.
-                            processed_img = apply_frame(image, size_option, style_option, border_option,extras_suboption_dict)
+                            processed_img = apply_frame(image, size_option, style_option, border_option,extras_suboption_dict,misc_suboption_dict)
                             # Now, for each available format option, further process the image.
                             for format_option in true_format_options:
                                 final_img = apply_format(processed_img, format_option,format_suboption_dict,True)
                                 final_img = bufferbytedata_to_pilimage(final_img,gv.OUTPUT_FILE_FORMATS[format_option])
-                                final_img = final_img.resize((sub_w, sub_h), Image.LANCZOS)
+                                if size_option == gv.OPTION_SIZE_ORIGINAL:
+                                    # Вписываем в ячейку предпросмотра без искажения пропорций
+                                    final_img = self.fit_center_transparent(final_img, sub_w, sub_h)
+                                else:
+                                    # Старое поведение — растянуть в квадрат ячейки
+                                    final_img = final_img.resize((sub_w, sub_h), Image.LANCZOS)
                                 # Compute grid cell coordinates.
                                 row = j // grid_size
                                 col = j % grid_size

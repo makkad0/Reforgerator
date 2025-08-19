@@ -228,13 +228,22 @@ class IconConverterGUI(wx.Frame):
         count_h_cur=int(count_h)
 
         # Output Size Settings
-        self.size_section, self.size_options = self.ui_generate_standard_section_with_checkboxes(gv.OPTIONS_SIZE)
-        main_sizer.Add(self.size_section,pos=(count_v_cur,count_h_cur),  flag=wx.ALL | wx.EXPAND, border=cs.BORDERSIZE_SECTIONS) 
+        self.size_section, self.size_options = self.ui_generate_standard_section_with_checkboxes(gv.OPTIONS_SIZE_EXTENDED)
+        span_v=1
+        span_h=2
+        main_sizer.Add(self.size_section,pos=(count_v_cur,count_h_cur), span=(span_v, span_h),  flag=wx.ALL | wx.EXPAND, border=cs.BORDERSIZE_SECTIONS) 
         count_h_cur +=1
+
+        #NEW ROW
+        count_v +=1
+        count_v_cur=int(count_v)
+        count_h_cur=int(count_h)
 
         # Output Style Settings
         self.style_section, self.style_options = self.ui_generate_standard_section_with_checkboxes(gv.OPTIONS_STYLE)
-        main_sizer.Add(self.style_section,pos=(count_v_cur,count_h_cur),  flag=wx.ALL | wx.EXPAND, border=cs.BORDERSIZE_SECTIONS)
+        span_v=1
+        span_h=2
+        main_sizer.Add(self.style_section,pos=(count_v_cur,count_h_cur), span=(span_v, span_h),  flag=wx.ALL | wx.EXPAND, border=cs.BORDERSIZE_SECTIONS)
         count_h_cur +=1 
         
         #NEW ROW
@@ -248,7 +257,6 @@ class IconConverterGUI(wx.Frame):
         span_h=2
         main_sizer.Add(self.extras_section, pos=(count_v_cur,count_h_cur), span=(span_v, span_h), flag=wx.ALL | wx.EXPAND, border=cs.BORDERSIZE_SECTIONS)
         count_h_cur +=span_h
-        self.update_black_frame_status()
 
         #NEW ROW
         count_v +=1
@@ -598,8 +606,6 @@ class IconConverterGUI(wx.Frame):
                 self.on_format_toggle(event)
             elif eo.section==gv.OPTIONS_OUTPUT["section"] and eo.option=="outputset_subfolders":
                 self.on_outputset_subfolders_toggle(event)
-            elif eo.section==gv.OPTIONS_STYLE["section"] and eo.option=="style_hd":
-                self.update_black_frame_status()
 
         if hasattr(eo,"regather_input"):
             if eo.regather_input:
@@ -705,13 +711,6 @@ class IconConverterGUI(wx.Frame):
         self.input_options["input_process_subfolders"].Enable(Enable)
         self.input_section.statictext1.Enable(Enable)
         self.input_section.input_format.enable_MultiSelectComboPanel(Enable)
-
-    def update_black_frame_status(self):
-        Enable = False
-        if self.current_selection.get_value('OPTIONS_STYLE','style_hd'):
-            Enable = True
-        self.extras_options['extras_blackframe'].Enable(Enable)
-        #self.output_basename_title.Enable(enabled)
 
     def update_generation_state_elements(self, Enable):
         self.button_list['btn_convert'].Enable(Enable)

@@ -342,6 +342,28 @@ class InputImagePanel(wx.Panel):
             self.user_input_init(folders=folders)
         dlg.Destroy()
 
+
+    def fit_center_transparent(self, img: Image.Image, box_w: int, box_h: int) -> Image.Image:
+        w, h = img.size
+        if w == 0 or h == 0:
+            return Image.new("RGBA", (box_w, box_h), (0, 0, 0, 0))
+
+        scale = min(box_w / w, box_h / h)
+        new_w = max(1, int(round(w * scale)))
+        new_h = max(1, int(round(h * scale)))
+
+        resized = img.resize((new_w, new_h), Image.LANCZOS)
+        if resized.mode != "RGBA":
+            resized = resized.convert("RGBA")
+
+        canvas = Image.new("RGBA", (box_w, box_h), (0, 0, 0, 0))
+        x = (box_w - new_w) // 2
+        y = (box_h - new_h) // 2
+        canvas.paste(resized, (x, y), resized)
+        return canvas
+
+
+
     # Updated show_images_grid_preview.
     def show_images_grid_preview(self):
         """
@@ -378,7 +400,7 @@ class InputImagePanel(wx.Panel):
                 bmp_img = generate_folder_icon(path, sub_w, sub_h)
             elif os.path.isfile(path) and path in images:
                 image = images_pillow[j]
-                img_scaled = image.resize((sub_w, sub_h), Image.LANCZOS)
+                img_scaled =  self.fit_center_transparent(image, sub_w, sub_h)
                 wx_image = pil_image_to_wx(img_scaled)
                 bmp_img = wx.Bitmap(wx_image)
                 j += 1

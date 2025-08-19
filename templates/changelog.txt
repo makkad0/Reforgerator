@@ -1,3 +1,11 @@
+#### 1.2.0 - 19, August 2025
+- Added support for preserving the original output size, allowing files to be saved in their native dimensions.
+- Introduced a option for selecting the Classic HD 2.0 style, alongside the existing Classic SD and Reforged HD styles.
+- Added configuration settings to control desaturation and contrast reduction for Disabled icons in the Reforged HD style via the config file. The default contrast value has been adjusted from 0.90 to 0.82.
+- Added an extra option to apply Hero Glow (the effect used in icons of standard heroes) for Classic graphics.
+- Enabled the use of an extra black border overlay for any style.
+- Added a new Autocast icon for Classic SD (128x128 and 256x256). Thanks to Narga163 for providing the icon.
+
 #### 1.1.5 - 06, May 2025
 - The frame BTN-classic-sd-256 by author Aldeia is now used by default for BTN frames in the Classic style at both 128x128 and 256x256 sizes. The previous Classic HD 2.0 frame remains available via custom frame selection.
 
