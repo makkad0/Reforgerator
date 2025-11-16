@@ -194,7 +194,8 @@ handled. To deal with CLI output, use one of the following methods:
 #### 1.3.0 - 16, November 2025
 - Added support for custom backgrounds, allowing users to select and apply their
   own background images, which are automatically placed behind input images that
-  contain transparent pixels (alpha channel).
+  contain transparent pixels (alpha channel). Custom backgrounds are stored in
+  the \frames\custom_backgrounds directory.
 - Added the “Keep Location” output option, enabling generated files to be saved
   directly into the same directory as their source files. This works for both
   individual file processing and folder-based batch operations.
