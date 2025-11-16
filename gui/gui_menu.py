@@ -327,6 +327,11 @@ class TopMenu:
         # --- Custom Frames Menu ---
         custom_frames_menu = CustomFramesMenu(self)
         self.menu_bar.Append(custom_frames_menu, get_local_text("menu_custom_frames"))
+        
+        # --- Custom Backgrounds Menu ---
+        from gui.gui_menu_custombackgrounds import CustomBackgroundsMenu
+        custom_backgrounds_menu = CustomBackgroundsMenu(self)
+        self.menu_bar.Append(custom_backgrounds_menu, get_local_text("menu_custom_backgrounds"))
 
         # --- Help Menu ---
         help_menu = wx.Menu()

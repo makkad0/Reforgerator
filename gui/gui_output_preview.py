@@ -140,7 +140,11 @@ class OutputPreviewImage(wx.Panel):
         true_size_options, true_style_options, true_border_options, true_format_options = current_selection.recieve_true_variations()
         format_suboption_dict = current_selection.recieve_suboptions([gv.DDS_SETTINGS, gv.BLP_SETTINGS,gv.TGA_SETTINGS])
         extras_suboption_dict = current_selection.recieve_suboptions([gv.OPTIONS_EXTRAS])
-        misc_suboption_dict   = current_selection.recieve_suboptions([gv.OPTIONS_MISC])
+        misc_suboption_dict   = current_selection.recieve_suboptions([gv.OPTIONS_MISC, gv.OPTIONS_CUSTOM_SIZE])
+        # Get custom background option
+        custom_background_name = current_selection.get_value("CUSTOM_SECTION", "custom_background")
+        if custom_background_name is None:
+            custom_background_name = "None"
 
         j=0
 
@@ -152,13 +156,13 @@ class OutputPreviewImage(wx.Panel):
                 for style_option in true_style_options:
                     for border_option in true_border_options:
                         try:
-                            # Apply frame transformation.
-                            processed_img = apply_frame(image, size_option, style_option, border_option,extras_suboption_dict,misc_suboption_dict)
+                            # Apply frame transformation with custom background.
+                            processed_img = apply_frame(image, size_option, style_option, border_option,extras_suboption_dict,misc_suboption_dict, custom_background_name)
                             # Now, for each available format option, further process the image.
                             for format_option in true_format_options:
                                 final_img = apply_format(processed_img, format_option,format_suboption_dict,True)
                                 final_img = bufferbytedata_to_pilimage(final_img,gv.OUTPUT_FILE_FORMATS[format_option])
-                                if size_option == gv.OPTION_SIZE_ORIGINAL:
+                                if size_option == gv.OPTION_SIZE_ORIGINAL or size_option == gv.OPTION_SIZE_CUSTOM:
                                     # Вписываем в ячейку предпросмотра без искажения пропорций
                                     final_img = self.fit_center_transparent(final_img, sub_w, sub_h)
                                 else:

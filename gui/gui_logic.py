@@ -7,6 +7,7 @@ import vars.global_var as gv
 import vars.sizes as cs
 
 from gui.gui_validators import SliderSyncValidator
+from gui.gui_validators import CustomSizeValidator
 from gui.gui_input_preview import InputImagePanel
 from gui.gui_output_preview import OutputPreviewImage
 from gui.gui_logwindow import RichLogPanel
@@ -64,6 +65,13 @@ class IconConverterGUI(wx.Frame):
             init_CUSTOM_FRAMES_DICT()
         except Exception as e:
             self.delayed_log.append(('program_failed_to_load_list_of_custom_frames',e))
+        
+        #Try to load custom backgrounds
+        try:
+            from src.custom_backgrounds import init_CUSTOM_BACKGROUNDS_DICT
+            init_CUSTOM_BACKGROUNDS_DICT()
+        except Exception as e:
+            self.delayed_log.append(('program_failed_to_load_list_of_custom_backgrounds',e))
 
         lang_code=self.config.get('LANG','program_lang', fallback='eng')
         update_localisation(lang_code)
@@ -228,7 +236,65 @@ class IconConverterGUI(wx.Frame):
         count_h_cur=int(count_h)
 
         # Output Size Settings
-        self.size_section, self.size_options = self.ui_generate_standard_section_with_checkboxes(gv.OPTIONS_SIZE_EXTENDED)
+        # Create section with vertical layout to allow custom size on new line
+        self.size_section = self.ui_generate_standard_section(gv.OPTIONS_SIZE_EXTENDED, multiline=True)
+        self.size_options = self.ui_generate_standard_checkbox_list(gv.OPTIONS_SIZE_EXTENDED)
+        
+        # Create a horizontal sizer for standard size options (64x64, 128x128, 256x256, Original)
+        standard_size_row = wx.BoxSizer(wx.HORIZONTAL)
+        for cb in self.size_options.values():
+            standard_size_row.Add(cb, flag=wx.ALL, border=cs.BORDERSIZE_OPTIONS)
+        self.size_section.Add(standard_size_row, flag=wx.ALL, border=0)
+        
+        # Create custom size option separately on a new line
+        # Create the checkbox manually
+        size_custom_cb = wx.CheckBox(panel, label=get_local_text(gv.OPTION_SIZE_CUSTOM))
+        size_custom_cb.section = gv.OPTIONS_SIZE["section"]
+        size_custom_cb.option = gv.OPTION_SIZE_CUSTOM
+        size_custom_cb.output_preview_change = gv.OPTIONS_SIZE_EXTENDED.get("update_preview", False)
+        size_custom_cb.update_convert_btn_state = gv.OPTIONS_SIZE_EXTENDED.get("update_generate", False)
+        
+        # Initialize state from config
+        state = self.config.getboolean(size_custom_cb.section, size_custom_cb.option, fallback=False)
+        size_custom_cb.SetValue(state)
+        size_custom_cb.Bind(wx.EVT_CHECKBOX, self.on_universal_option_change)
+        self.all_interactive_items.append(size_custom_cb)
+        
+        # Store in size_options for consistency
+        self.size_options[gv.OPTION_SIZE_CUSTOM] = size_custom_cb
+        
+        # Add tooltip if available
+        tooltip = get_tooltip_text(gv.OPTION_SIZE_CUSTOM, True)
+        if tooltip:
+            size_custom_cb.tooltip_overlay = HoverOverlay(
+                parent=self.panel,
+                item=size_custom_cb,
+                type="active",
+                tooltip_text=tooltip,
+            )
+            self.overlay_items.append(size_custom_cb.tooltip_overlay)
+        
+        # Create a horizontal sizer for the checkbox and text fields (new line)
+        custom_size_row = wx.BoxSizer(wx.HORIZONTAL)
+        custom_size_row.Add(size_custom_cb, flag=wx.ALL | wx.ALIGN_CENTER_VERTICAL, border=cs.BORDERSIZE_OPTIONS)
+        
+        # Create X text field using helper function
+        self.size_custom_x = self.create_custom_size_text_field(panel, "size_custom_x", gv.CUSTOM_SIZE_DEFAULT_X, custom_size_row)
+        
+        # Add "x" label
+        x_label = wx.StaticText(panel, label="x")
+        custom_size_row.Add(x_label, flag=wx.ALL | wx.ALIGN_CENTER_VERTICAL, border=0)
+        
+        # Create Y text field using helper function
+        self.size_custom_y = self.create_custom_size_text_field(panel, "size_custom_y", gv.CUSTOM_SIZE_DEFAULT_Y, custom_size_row)
+        
+        # Add the custom row to the section (on a new line below standard options)
+        self.size_section.Add(custom_size_row, flag=wx.ALL, border=cs.BORDERSIZE_OPTIONS)
+        
+        # Initially disable text fields
+        self.size_custom_x.Enable(False)
+        self.size_custom_y.Enable(False)
+        
         span_v=1
         span_h=2
         main_sizer.Add(self.size_section,pos=(count_v_cur,count_h_cur), span=(span_v, span_h),  flag=wx.ALL | wx.EXPAND, border=cs.BORDERSIZE_SECTIONS) 
@@ -480,11 +546,38 @@ class IconConverterGUI(wx.Frame):
         span_h=2
         main_sizer.Add(self.input_section, pos=(count_v_cur,count_h_cur), span=(span_v, span_h), flag=wx.ALL | wx.EXPAND, border=cs.BORDERSIZE_SECTIONS)
         count_h_cur +=span_h
+        
+        # Basename Section (right of Input Settings, at bottom of Output Preview)
+        self.basename_section = self.ui_generate_standard_section(gv.OPTIONS_BASENAME, True)
+        basename_row = wx.BoxSizer(wx.HORIZONTAL)
+        self.output_basename_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.output_basename_text = wx.TextCtrl(panel)
+        self.output_basename_sizer.Add(self.output_basename_text, proportion=1,flag=wx.ALL| wx.EXPAND, border=0)
+        self.output_basename_text.section = gv.OPTIONS_BASENAME["section"]
+        self.output_basename_text.option = "output_basename" 
+        self.output_basename_text.Bind(wx.EVT_TEXT, lambda evt: self.on_output_basename_text_change())
+        basename_row.Add(self.output_basename_sizer, proportion=1, flag=wx.ALL|wx.EXPAND)
+        self.basename_section.Add(basename_row, flag=wx.EXPAND)
+        self.set_input_image_basename_enable(False)
+        
+        # Calculate the column position: right of Input Settings (which is at count_h_cur after adding input_section)
+        # Input Settings is at count_h_cur (which is count_h=1 after left pad), spans 2 columns, so columns 1-2
+        # Images box is at column 3 (from row 1, after border section which spans columns 1-2)
+        # So Basename should be at column 3, which is the same column as images box (right of Input Settings)
+        basename_col = count_h + 2  # Column where images box is (count_h=1 after left pad, so 1+2=3)
+        span_v=1
+        span_h=1
+        main_sizer.Add(self.basename_section, pos=(count_v_cur,basename_col), span=(span_v, span_h), flag=wx.ALL | wx.EXPAND, border=cs.BORDERSIZE_SECTIONS)
+        
         #NEW ROW
         count_v +=1
         count_v_cur=int(count_v)
         count_h_cur=int(count_h)
         self.update_input_gui_state()
+        
+        # Initialize custom size text fields state
+        if hasattr(self, 'size_custom_x') and hasattr(self, 'size_custom_y'):
+            self.on_size_custom_toggle(None)
 
         # Output Options
         self.outputset_section = self.ui_generate_standard_section(gv.OPTIONS_OUTPUT, True)
@@ -496,26 +589,7 @@ class IconConverterGUI(wx.Frame):
                  self.outputset_merged=cb
         self.on_outputset_subfolders_toggle(None)
         outputset_firstrow.AddStretchSpacer(prop=0)  
-        # Output Basename
-        self.output_basename_title= wx.StaticText(panel, label=get_local_text("outputset_basename_title"))
-        tooltip = get_tooltip_text("outputset_basename_title",True)
-        if tooltip:
-            self.output_basename_title.tooltip_overlay = HoverOverlay(
-                parent=self.panel,
-                item = self.output_basename_title,
-                type = "statictext",
-                tooltip_text=tooltip,
-            )
-            self.overlay_items.append(self.output_basename_title.tooltip_overlay)
-        self.output_basename_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        self.output_basename_text = wx.TextCtrl(panel)
-        self.output_basename_sizer.Add(self.output_basename_text, proportion=1,flag=wx.ALL| wx.EXPAND, border=0)
-        self.output_basename_text.section = gv.OPTIONS_OUTPUT_PATH["section"]
-        self.output_basename_text.option = "output_basename" 
-        self.output_basename_text.Bind(wx.EVT_TEXT, lambda evt: self.on_output_basename_text_change())
-        outputset_firstrow.Add(self.output_basename_sizer, proportion=1, flag=wx.ALL|wx.EXPAND)
         self.outputset_section.Add(outputset_firstrow, flag=wx.EXPAND)
-        self.set_input_image_basename_enable(False)
         # Output Folder
         output_folder_sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.output_folder_button = wx.Button(panel, label=get_local_text("outputset_btn_choosefolder"))
@@ -538,6 +612,8 @@ class IconConverterGUI(wx.Frame):
         output_folder_sizer.Add(self.output_folder_button, flag=wx.EXPAND)
         output_folder_sizer.Add(self.output_folder_text, proportion=1, flag=wx.EXPAND | wx.RIGHT)
         self.outputset_section.Add(output_folder_sizer, flag=wx.EXPAND)
+        # Set initial state for output folder controls based on outputset_samedir
+        self.on_outputset_subfolders_toggle(None)
         span_v=1
         span_h=3
         main_sizer.Add(self.outputset_section,pos=(count_v_cur,count_h_cur), span=(span_v, span_h), flag=wx.ALL | wx.EXPAND, border=cs.BORDERSIZE_SECTIONS) 
@@ -556,6 +632,7 @@ class IconConverterGUI(wx.Frame):
         main_sizer.Add(self.btn_pannel.btn_sizer,pos=(count_v_cur,count_h_cur), span=(span_v, span_h), flag=wx.ALIGN_CENTER, border=cs.BORDERSIZE_SECTIONS)
         count_h_cur +=span_h
         self.update_generation_state()
+        self.update_browse_button_state()  # Set initial Browse button state
         #NEW ROW
         count_v +=1
         count_v_cur=int(count_v)
@@ -575,9 +652,6 @@ class IconConverterGUI(wx.Frame):
                 static_box_position = cb.subsection.GetPosition()  # Get its position
                 cb_position = wx.Point(static_box_position.x + cs.FORMAT_OPTION_CHECKBOX_PAD, static_box_position.y)  # Adjust for overlap
                 cb.SetPosition(cb_position)
-
-        # Output Basename Title Reposition
-        self.output_basename_title.SetPosition(wx.Point(self.output_basename_text.GetPosition().x+cs.OUTPUT_BASENAME_TITLE_PAD,self.outputset_section.GetPosition().y))
         
         # Place tooltip overlay
         for item in self.overlay_items:
@@ -604,8 +678,12 @@ class IconConverterGUI(wx.Frame):
             config_manager.save_configuration_OS(self.config)
             if eo.section==gv.OPTIONS_FORMAT["section"]:
                 self.on_format_toggle(event)
-            elif eo.section==gv.OPTIONS_OUTPUT["section"] and eo.option=="outputset_subfolders":
-                self.on_outputset_subfolders_toggle(event)
+            elif eo.section==gv.OPTIONS_OUTPUT["section"]:
+                if eo.option=="outputset_subfolders" or eo.option=="outputset_samedir":
+                    self.on_outputset_subfolders_toggle(event)
+            elif eo.section==gv.OPTIONS_SIZE["section"]:
+                if eo.option==gv.OPTION_SIZE_CUSTOM:
+                    self.on_size_custom_toggle(event)
 
         if hasattr(eo,"regather_input"):
             if eo.regather_input:
@@ -653,11 +731,68 @@ class IconConverterGUI(wx.Frame):
             if eo.output_preview_change:
                 self.output_panel.update_preview()
 
+    def create_custom_size_text_field(self, panel, option_name, default_value, sizer):
+        """Create a custom size text field (X or Y) and add it to the sizer."""
+        text_ctrl = wx.TextCtrl(panel, size=(40, -1), style=wx.TE_RIGHT | wx.TE_PROCESS_ENTER, validator=CustomSizeValidator())
+        text_ctrl.section = gv.OPTIONS_CUSTOM_SIZE["section"]
+        text_ctrl.option = option_name
+        text_ctrl.output_preview_change = True
+        text_ctrl.last_valid_value = default_value
+        state = self.config.getint(text_ctrl.section, text_ctrl.option, fallback=default_value)
+        if state < gv.CUSTOM_SIZE_MIN or state > gv.CUSTOM_SIZE_MAX:
+            state = default_value
+        text_ctrl.SetValue(str(state))
+        text_ctrl.last_valid_value = state
+        self.all_interactive_items.append(text_ctrl)
+        sizer.Add(text_ctrl, flag=wx.ALL | wx.ALIGN_CENTER_VERTICAL, border=0)
+        return text_ctrl
+
+    def on_size_custom_toggle(self, event):
+        """Enable/disable custom size text fields based on checkbox state."""
+        if hasattr(self, 'size_custom_x') and hasattr(self, 'size_custom_y'):
+            # Get checkbox state from event if available, otherwise from the checkbox itself
+            if event:
+                enabled = event.IsChecked()
+            else:
+                # Fallback: get state from checkbox directly
+                if gv.OPTION_SIZE_CUSTOM in self.size_options:
+                    enabled = self.size_options[gv.OPTION_SIZE_CUSTOM].IsChecked()
+                else:
+                    enabled = False
+            self.size_custom_x.Enable(enabled)
+            self.size_custom_y.Enable(enabled)
+
+    def on_custom_size_change(self, text_ctrl):
+        """Save custom size value to config when changed."""
+        value = text_ctrl.GetValue().strip()
+        if value.isdigit():
+            num_value = int(value)
+            if gv.CUSTOM_SIZE_MIN <= num_value <= gv.CUSTOM_SIZE_MAX:
+                self.current_selection.set_value(text_ctrl.section, text_ctrl.option, num_value)
+                self.config.set(text_ctrl.section, text_ctrl.option, str(num_value))
+                config_manager.save_configuration_OS(self.config)
+                if hasattr(text_ctrl, "output_preview_change") and text_ctrl.output_preview_change:
+                    self.output_panel.update_preview()
+
     def on_outputset_subfolders_toggle(self, event):
+        output_samedir_processed = False
         for outputset_options, cb in self.outputset_options.items():
+            enabled = cb.IsChecked()
             if cb.option=="outputset_subfolders":
-                enabled = cb.IsChecked()
                 self.outputset_merged.Enable(enabled)
+            if cb.option=="outputset_samedir":
+                # When "Keep Location" is checked, disable folder selection (output goes to same dir as input)
+                # When unchecked, enable folder selection
+                if hasattr(self, 'output_folder_button') and hasattr(self, 'output_folder_text'):
+                    self.output_folder_button.Enable(not enabled)
+                    self.output_folder_text.Enable(not enabled)
+                output_samedir_processed = True
+        
+        # Update generation state when outputset_samedir changes (affects folder validation)
+        # Only update if there's an actual event (not during initialization) and outputset_samedir was processed
+        if event is not None and output_samedir_processed:
+            self.update_generation_state()
+            self.update_browse_button_state()    
 
     def on_output_folder_text_change(self):
         tb=self.output_folder_text
@@ -683,7 +818,6 @@ class IconConverterGUI(wx.Frame):
 
     def set_input_image_basename_enable(self,enabled):
         self.output_basename_text.Enable(enabled)
-        self.output_basename_title.Enable(enabled)
 
     def set_input_image_basename(self):
         if self.current_selection.paths_images and not(self.current_selection.paths_folders):
@@ -756,7 +890,12 @@ class IconConverterGUI(wx.Frame):
         selection_invalid = not (hasattr(self, 'current_selection') and self.current_selection.paths)
         
         # Condition 6: Check if the output folder text field is empty or whitespace.
-        folder_invalid = not self.output_folder_text.GetValue().strip()
+        # Skip this check if outputset_samedir is enabled (output goes to same dir as input)
+        output_samedir = self.outputset_options.get("outputset_samedir", None)
+        if output_samedir and output_samedir.IsChecked():
+            folder_invalid = False  # Skip folder validation when outputset_samedir is enabled
+        else:
+            folder_invalid = not self.output_folder_text.GetValue().strip()
         
         Enable = not (size_invalid or style_invalid or border_invalid or format_invalid or 
                 selection_invalid or folder_invalid)
@@ -784,9 +923,36 @@ class IconConverterGUI(wx.Frame):
             if child_sizer:
                 self.enable_all_controls(child_sizer,enable)
 
+    def update_browse_button_state(self):
+        """Updates the Browse button state based on Keep Location option and input files/folders."""
+        if not hasattr(self, 'button_list') or 'btn_browse' not in self.button_list:
+            return
+        
+        # Check if "Keep Location" is enabled
+        output_samedir = self.outputset_options.get("outputset_samedir", None)
+        keep_location_enabled = output_samedir and output_samedir.IsChecked() if output_samedir else False
+        
+        # Check if there are any input files, folders, or images selected
+        # (folders can be selected even if empty, so check paths_folders and paths_images too)
+        has_inputs = bool(
+            hasattr(self, 'current_selection') and (
+                self.current_selection.paths or 
+                self.current_selection.paths_folders or 
+                self.current_selection.paths_images
+            )
+        )
+        
+        # Disable Browse button if Keep Location is on and there are no inputs
+        # Otherwise, enable it
+        if keep_location_enabled and not has_inputs:
+            self.button_list['btn_browse'].Enable(False)
+        else:
+            self.button_list['btn_browse'].Enable(True)
+
     def update_global_state(self):
         if self.state_updating_is_allowed:
             self.output_panel.update_preview()
             self.update_basename_state()
             self.update_input_gui_state()
             self.update_generation_state()
+            self.update_browse_button_state()

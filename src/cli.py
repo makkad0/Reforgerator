@@ -79,6 +79,10 @@ def cli_mode(args):
         init_CUSTOM_FRAMES_DICT_from_string(custom_frame_list)
         for key in iv.CUSTOM_FRAMES_DICT.keys():
             input_data.add_option(gv.OPTIONS_BORDER['section'],key,True)
+    
+    # load custom backgrounds
+    from src.custom_backgrounds import init_CUSTOM_BACKGROUNDS_DICT
+    init_CUSTOM_BACKGROUNDS_DICT()
 
     # Supported extensions
     extensions_raw = input_data.get_value("OPTIONS_INPUT","input_process_filetypes")

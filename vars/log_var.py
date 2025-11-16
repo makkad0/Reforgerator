@@ -3,6 +3,14 @@ LOG_DATA={
         "Type": "WARNING",
         "local_message": "log_program_failed_to_load_list_of_custom_frames",
     },
+    "program_failed_to_load_list_of_custom_backgrounds" : { 
+        "Type": "WARNING",
+        "local_message": "log_program_failed_to_load_list_of_custom_backgrounds",
+    },
+    "custom_background_not_found" : { 
+        "Type": "WARNING",
+        "local_message": "log_custom_background_not_found",
+    },
     "program_load_complete" : { 
         "Type": "INFO",
         "local_message": "log_program_load_complete",
@@ -78,6 +86,10 @@ LOG_DATA={
     "browse_output_error" : { 
         "Type": "ERROR",
         "local_message": "log_browse_output_error",
+    },
+    "browse_input_path_not_found" : { 
+        "Type": "ERROR",
+        "local_message": "log_browse_input_path_not_found",
     },
     "config_load_ok" : { 
         "Type": "INFO",

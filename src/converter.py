@@ -177,7 +177,7 @@ def crop_image(input_image: Image.Image, crop_percent:float = 0.1) -> Image.Imag
     # Crop and return the image
     return input_image.crop((left, top, right, bottom))
 
-def apply_frame(input_image: Image.Image, size_option: str = "size_256x256", style_option: str = "style_hd", border_option:str ="border_button", extras:dict = None, misc:dict = None) -> Image.Image:
+def apply_frame(input_image: Image.Image, size_option: str = "size_256x256", style_option: str = "style_hd", border_option:str ="border_button", extras:dict = None, misc:dict = None, custom_background_name: str = "None") -> Image.Image:
     """
     Applies a frame border to the input_image based on the provided options.
     
@@ -193,9 +193,9 @@ def apply_frame(input_image: Image.Image, size_option: str = "size_256x256", sty
     """
     
     def _pick_closest_frame_size_option_by_max_dim(w: int, h: int) -> str:
-        """Choose the size_* option (excluding size_original) whose square side is closest to max(w, h)."""
+        """Choose the size_* option (excluding size_original and size_custom) whose square side is closest to max(w, h)."""
         max_dim = max(w, h)
-        candidates = [k for k in gv.SIZE_MAPPING.keys() if k.startswith("size_") and k != "size_original"]
+        candidates = [k for k in gv.SIZE_MAPPING.keys() if k.startswith("size_") and k != gv.OPTION_SIZE_ORIGINAL and k != gv.OPTION_SIZE_CUSTOM]
         if not candidates:
             raise ValueError("No frame size candidates available.")
         # SIZE_MAPPING[k] is e.g. (64, 64), (128, 128), (256, 256)
@@ -215,11 +215,27 @@ def apply_frame(input_image: Image.Image, size_option: str = "size_256x256", sty
     # Determine canvas / frame sizing mode
     orig_w, orig_h = input_image.size
     is_size_original = (size_option == gv.OPTION_SIZE_ORIGINAL)
+    is_size_custom = (size_option == gv.OPTION_SIZE_CUSTOM)
 
     if is_size_original:
         # Keep output at original size; choose closest square frame for artwork source
         effective_size_option = _pick_closest_frame_size_option_by_max_dim(orig_w, orig_h)
         canvas_size = (orig_w, orig_h)                          # final output size
+        frame_size = gv.SIZE_MAPPING[effective_size_option]      # native frame asset size
+        target_size = canvas_size                                # default resize for image layer
+    elif is_size_custom:
+        # Use custom size from misc dict; choose closest square frame for artwork source
+        if misc:
+            custom_x = misc.get('size_custom_x', gv.CUSTOM_SIZE_DEFAULT_X)
+            custom_y = misc.get('size_custom_y', gv.CUSTOM_SIZE_DEFAULT_Y)
+            # Validate custom size values
+            custom_x = max(gv.CUSTOM_SIZE_MIN, min(gv.CUSTOM_SIZE_MAX, int(custom_x)))
+            custom_y = max(gv.CUSTOM_SIZE_MIN, min(gv.CUSTOM_SIZE_MAX, int(custom_y)))
+        else:
+            custom_x = gv.CUSTOM_SIZE_DEFAULT_X
+            custom_y = gv.CUSTOM_SIZE_DEFAULT_Y
+        canvas_size = (custom_x, custom_y)                       # final output size
+        effective_size_option = _pick_closest_frame_size_option_by_max_dim(custom_x, custom_y)
         frame_size = gv.SIZE_MAPPING[effective_size_option]      # native frame asset size
         target_size = canvas_size                                # default resize for image layer
     else:
@@ -246,7 +262,7 @@ def apply_frame(input_image: Image.Image, size_option: str = "size_256x256", sty
         # If custom size equals full frame, treat it as "no custom size"
         raw_size_is_full = (tuple(raw_custom_size) == tuple(frame_size))
 
-        if is_size_original:
+        if is_size_original or is_size_custom:
             # Scale custom values from native frame space -> canvas space
             sx = canvas_size[0] / frame_size[0]
             sy = canvas_size[1] / frame_size[1]
@@ -349,8 +365,9 @@ def apply_frame(input_image: Image.Image, size_option: str = "size_256x256", sty
 
         if black_frame_image_source:
             black_frame_image=black_frame_image_source
-            if custom_size:
-                black_frame_image = black_frame_image.resize(target_size, Image.LANCZOS)
+            # Resize black frame to match resized_image size if they differ
+            if black_frame_image.size != resized_image.size:
+                black_frame_image = black_frame_image.resize(resized_image.size, Image.LANCZOS)
             #resized_image = alpha_over_linear(resized_image,black_frame_image)
             resized_image = Image.alpha_composite(resized_image,black_frame_image)
 
@@ -378,9 +395,40 @@ def apply_frame(input_image: Image.Image, size_option: str = "size_256x256", sty
 
         if hero_frame_image_source:
             hero_frame_image=hero_frame_image_source
+            # Resize hero frame to match resized_image size if they differ
+            if hero_frame_image.size != resized_image.size:
+                hero_frame_image = hero_frame_image.resize(resized_image.size, Image.LANCZOS)
             resized_image = Image.alpha_composite(resized_image,hero_frame_image)
 
+    # Load and apply custom background (if specified)
+    # Background is resized to final image size (resized_image.size) and placed behind the image
+    # Background is always applied to the image itself, not to the canvas
+    background_image = None
+    if custom_background_name and custom_background_name != "None":
+        from src.custom_backgrounds import load_background_image
+        # Background should always match resized_image size (final image size, not canvas size)
+        # This ensures background only appears behind the image, not covering the entire canvas
+        background_image = load_background_image(custom_background_name, resized_image.size)
+    
     # Combine the images:
+    # Layer order: background (bottom) -> resized_image (middle) -> frame (top)
+    if background_image:
+        # Keep background as-is with alpha channel (don't make it opaque)
+        # Ensure background is RGBA for proper compositing
+        if background_image.mode != "RGBA":
+            background_image = background_image.convert("RGBA")
+        
+        # Composite image on top of background
+        # This applies background only behind the image (at image size), not the entire canvas
+        if resized_image.mode == "RGBA":
+            # Composite: resized_image on top of background
+            # This will show background through transparent areas of resized_image
+            resized_image = Image.alpha_composite(background_image, resized_image)
+        else:
+            # Image has no alpha, convert to RGBA and composite
+            resized_image_rgba = resized_image.convert("RGBA")
+            resized_image = Image.alpha_composite(background_image, resized_image_rgba)
+    
     # The resized image is used as the base layer (first layer) and the frame image is composited on top.
     if frame_image:
 
@@ -392,9 +440,13 @@ def apply_frame(input_image: Image.Image, size_option: str = "size_256x256", sty
                 new_position = custom_position
             else:
                 new_position = (0,0)
+            # Create canvas - background is already applied to resized_image, so just use transparent canvas
             buffer_image = Image.new("RGBA",canvas_size, (0, 0, 0, 0))
-            buffer_image.paste(resized_image ,new_position,resized_image )
-            buffer_image.paste(frame_render ,(0,0),frame_render )
+            # Paste resized image (with background already applied) at its custom position
+            # This preserves the exact position, and background only appears behind the image
+            buffer_image.paste(resized_image, new_position, resized_image)
+            # Paste frame on top at (0,0)
+            buffer_image.paste(frame_render, (0,0), frame_render)
             resized_image = buffer_image
         else:
             resized_image = Image.alpha_composite(resized_image,frame_render)

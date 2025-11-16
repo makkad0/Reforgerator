@@ -1,5 +1,5 @@
 PROGRAM_NAME="Reforgerator"
-PROGRAM_VERSION="1.2.0"
+PROGRAM_VERSION="1.3.0"
 PROGRAM_AUTHOR="Makkad"
 PROGRAM_FULLNAME=PROGRAM_NAME+" "+PROGRAM_VERSION+" by "+PROGRAM_AUTHOR
 DIRS = {
@@ -9,6 +9,7 @@ DIRS = {
     "credits":"credits",
     "frames": "frames",
     "custom_frames":"frames\\custom_frames",
+    "custom_backgrounds":"frames\\custom_backgrounds",
     "output":"output",
     "external": "external",
 }
@@ -19,6 +20,7 @@ FRAMES_LISTFILE = {
     "size_128x128": "128x128",
     "size_256x256": "256x256",
     "size_original": "Original",
+    "size_custom": "Custom",
     "style_sd": "ClassicSD",
     "style_hd": "ReforgedHD",
     "style_20": "ClassicHD2.0",
@@ -115,6 +117,7 @@ OPTIONS_SIZE = {
     "update_generate": True,
 }
 OPTION_SIZE_ORIGINAL = "size_original"
+OPTION_SIZE_CUSTOM = "size_custom"
 OPTIONS_SIZE_EXTENDED = {
     **OPTIONS_SIZE,  # copy all keys/values
     "options": OPTIONS_SIZE["options"] + [OPTION_SIZE_ORIGINAL]
@@ -124,6 +127,17 @@ SIZE_MAPPING = {
     "size_128x128": (128, 128),
     "size_256x256": (256, 256),
 }
+OPTIONS_CUSTOM_SIZE = {
+    "section": "OPTIONS_CUSTOM_SIZE",  # Section name in the config file.
+    "options": [
+        "size_custom_x",
+        "size_custom_y",
+    ],
+}
+CUSTOM_SIZE_DEFAULT_X = 256
+CUSTOM_SIZE_DEFAULT_Y = 256
+CUSTOM_SIZE_MIN = 1
+CUSTOM_SIZE_MAX = 9999
 SIZE_PROPORTIONS = {
     "size_64x64": 1,
     "size_128x128": 2,
@@ -146,6 +160,7 @@ OPTIONS_OUTPUT = {
         "outputset_subfolders",
         "outputset_merged",
         "outputset_prefix",
+        "outputset_samedir",
     ],
     "update_preview": False,
     "update_generate": False,
@@ -192,12 +207,22 @@ PNG_SETTINGS = {
     "update_preview": True,
     "update_generate": False,
 }
+OPTIONS_BASENAME = {
+    "section": "OPTIONS_BASENAME",  # Section name in the config file.
+    "title": "outputset_basename_title", # Section name in localisation.
+    "options": [
+        "output_basename",
+    ],
+    "update_preview": False,
+    "update_generate": False,
+}
 OPTIONS_OUTPUT_PATH = {
     "section": "OPTIONS_OUTPUT_PATH",  # Section name in the config file.
     "options": [
-        "output_basename",
         "output_folder",
     ],
+    "update_preview": False,
+    "update_generate": False,
 }
 HIDDEN_OPTIONS = []
 NON_CHECKBOX_OPTIONS = ["blp_mipmap","blp_compression","dds_type","input_process_filetypes"]

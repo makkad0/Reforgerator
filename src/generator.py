@@ -212,15 +212,26 @@ def generate_images(input_data:CurrentSelection = {}, info_stream: Optional[Any]
     # Retrieve the true-valued options and format suboptions.
     true_size_options, true_style_options, true_border_options, true_format_options = input_data.recieve_true_variations()
     format_suboption_dict = input_data.recieve_suboptions([gv.DDS_SETTINGS, gv.BLP_SETTINGS,gv.TGA_SETTINGS])
-    output_suboption_dict = input_data.recieve_suboptions([gv.OPTIONS_OUTPUT,gv.OPTIONS_OUTPUT_PATH])
+    output_suboption_dict = input_data.recieve_suboptions([gv.OPTIONS_OUTPUT,gv.OPTIONS_OUTPUT_PATH,gv.OPTIONS_BASENAME])
     extras_suboption_dict = input_data.recieve_suboptions([gv.OPTIONS_EXTRAS])
-    misc_suboption_dict   = input_data.recieve_suboptions([gv.OPTIONS_MISC])
+    misc_suboption_dict   = input_data.recieve_suboptions([gv.OPTIONS_MISC, gv.OPTIONS_CUSTOM_SIZE])
+    # Get custom background option
+    custom_background_name = input_data.get_value("CUSTOM_SECTION", "custom_background")
+    if custom_background_name is None:
+        custom_background_name = "None"
+    # Check if output should be in the same directory as input files
+    output_samedir = output_suboption_dict.get("outputset_samedir", False)
+    
     # Try to set and validate the output folder. Process any errors accordingly.
-    try:
-        output_folder = set_output_folder(output_suboption_dict)
-    except Exception as e:
-        log.msg("output_folder_error",e)
-        return
+    # Only set output_folder if outputset_samedir is disabled (will be set per-file if enabled)
+    if not output_samedir:
+        try:
+            output_folder = set_output_folder(output_suboption_dict)
+        except Exception as e:
+            log.msg("output_folder_error",e)
+            return
+    else:
+        output_folder = None  # Will be set per-file when outputset_samedir is enabled
 
     num_input_images = len(file_items)
     num_total_images = num_input_images * input_data.calculate_number_of_variations()
@@ -231,10 +242,31 @@ def generate_images(input_data:CurrentSelection = {}, info_stream: Optional[Any]
     #    gui_log.GaugeInit(num_total_images)
     current_count = 0
     used_output_paths = set()  # Track generated file paths to avoid duplicates.
+    
+    # Check if background was requested but not found (warning only once per generation)
+    if custom_background_name and custom_background_name != "None":
+        from src.custom_backgrounds import get_background_path
+        bg_path = get_background_path(custom_background_name)
+        if not bg_path or not os.path.exists(bg_path):
+            log.msg("custom_background_not_found", custom_background_name)
 
     # Iterate over each image path.
     for (path, rel_path) in file_items:
         input_basename = os.path.basename(path)
+        
+        # If outputset_samedir is enabled, use the input file's directory as output folder
+        # This works correctly for both:
+        # - Files selected directly (paths_images): output goes to the file's directory
+        # - Files from folders (paths_folders): output goes to each file's directory (which may be a subfolder)
+        # - Mixed inputs: each file outputs to its own directory, regardless of source
+        if output_samedir:
+            file_output_folder = os.path.dirname(path)
+            # Don't use relative_subfolder when output is in same directory as input
+            file_relative_subfolder = ""
+        else:
+            file_output_folder = output_folder
+            file_relative_subfolder = rel_path
+        
         # Iterate over all combinations of true options for frame transformation.
         for size_option in true_size_options:
             for style_option in true_style_options:
@@ -242,14 +274,14 @@ def generate_images(input_data:CurrentSelection = {}, info_stream: Optional[Any]
                     try:
                         # Load the image.
                         image = load_pil_image(path)
-                        # Apply the frame transformation.
-                        image = apply_frame(image, size_option, style_option, border_option, extras_suboption_dict, misc_suboption_dict)
+                        # Apply the frame transformation with custom background
+                        image = apply_frame(image, size_option, style_option, border_option, extras_suboption_dict, misc_suboption_dict, custom_background_name)
                         # For each available format option, apply further processing.
                         for format_option in true_format_options:
                             try:
                                 output_path = build_output_path(
                                     original_path=path,
-                                    output_folder=output_folder,
+                                    output_folder=file_output_folder,
                                     size_option=size_option,
                                     style_option=style_option,
                                     border_option=border_option,
@@ -259,7 +291,7 @@ def generate_images(input_data:CurrentSelection = {}, info_stream: Optional[Any]
                                     true_format_options=true_format_options,
                                     true_border_options=true_border_options,
                                     used_output_paths=used_output_paths,
-                                    relative_subfolder=rel_path
+                                    relative_subfolder=file_relative_subfolder
                                 )
                                 final_buffer = apply_format(image, format_option, format_suboption_dict)
                                 # Save the final image to the computed output path.
@@ -307,4 +339,7 @@ def generate_images(input_data:CurrentSelection = {}, info_stream: Optional[Any]
 
     # Finalize the CLI
     if hasattr(info_stream,"is_cli"):
-        print(f"Processing completed. Output folder: {output_folder}")
+        if output_samedir:
+            print("Processing completed. Output files saved in the same directories as input files.")
+        else:
+            print(f"Processing completed. Output folder: {output_folder}")

@@ -1,12 +1,12 @@
 # REFORGERATOR
 
-**Date:** `19, August 2025`  
-**Version:** `1.2.0`  
+**Date:** `16, November 2025`  
+**Version:** `1.3.0`  
 **License:** MIT License (See [LICENSE](LICENSE) file)  
 **Author:** `Makkad`  
 
 **Download the latest .exe build:** 
-- Link 1 [Reforgerator_1.2.0.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
+- Link 1 [Reforgerator_1.3.0.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
 
 ---
 
@@ -197,6 +197,12 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 
 ### 3.1. CHANGELOG
 
+#### 1.3.0 - 16, November 2025
+- Added support for custom backgrounds, allowing users to select and apply their own background images, which are automatically placed behind input images that contain transparent pixels (alpha channel).
+- Added the “Keep Location” output option, enabling generated files to be saved directly into the same directory as their source files. This works for both individual file processing and folder-based batch operations.
+- Added a new option to save files using a user-defined output size.
+- Updated the autocast icon for the Classic SD style with new 128×128 and 256×256 versions created by thehuntress16. The previous icon by Narga163 remains available in the custom frames section.
+
 #### 1.2.0 - 19, August 2025
 - Added support for preserving the original output size, allowing files to be saved in their native dimensions.
 - Introduced a option for selecting the Classic HD 2.0 style, alongside the existing Classic SD and Reforged HD styles.
@@ -240,7 +246,7 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 ### 3.2. CREDITS
 
 🎖 **Thanks to:**  
-`RvzerBro (testing), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom (pytoshop), Barorque (IconTemplateReforged.psd), Shadow Daemon (for the frame templates from Button Manager and inspiration), Aldeia (Classic-BTN), Narga163 (Classic-ATC)`
+`RvzerBro (testing), LeP (jpgwrapper), KoMaTo3 (py.texture.compress), mdboom (pytoshop), Barorque (IconTemplateReforged.psd), Shadow Daemon (for the frame templates from Button Manager and inspiration), Aldeia (Classic-BTN), Narga163, thehuntress16 (Classic-ATC)`
 
 ---
 
