@@ -1,0 +1,18 @@
+# Reforgerator — dependencies for running and building from source
+# Recommended Python version: 3.8, 3.9, 3.10, or 3.11 (3.9+ preferred)
+
+# --- Required to run the program (GUI + CLI) ---
+wxPython>=4.2.0
+Pillow>=9.0.0
+numpy>=1.20.0
+appdirs>=1.4.0
+six>=1.15.0
+
+# --- Required only for running setup.py (build executable, zip, README) ---
+pyminizip>=0.2.6
+pyinstaller>=5.3.0
+setuptools>=60.0.0
+
+# --- Required only when building C extensions (if not pre-built) ---
+# Needed for external/packbits; imagecompress and jpgwrapper need a C++ compiler (e.g. MSVC on Windows)
+Cython>=3.0.0

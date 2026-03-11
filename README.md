@@ -1,12 +1,12 @@
 # REFORGERATOR
 
-**Date:** `16, November 2025`  
-**Version:** `1.3.0`  
+**Date:** `11, March 2026`  
+**Version:** `1.3.1`  
 **License:** MIT License (See [LICENSE](LICENSE) file)  
 **Author:** `Makkad`  
 
 **Download the latest .exe build:** 
-- Link 1 [Reforgerator_1.3.0.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
+- Link 1 [Reforgerator_1.3.1.zip](https://xgm.guru/p/wc3/reforgerator/download) (archive password: makkad)
 
 ---
 
@@ -197,6 +197,9 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 
 ### 3.1. CHANGELOG
 
+#### 1.3.1 - 11, March 2026
+- Adjusted prefix merging logic so that only overlaps of at least three consecutive characters are merged, preventing unintended shortening when the shared part is shorter (for example, \"BTN\" + \"North\" now becomes \"BTNNorth\").
+
 #### 1.3.0 - 16, November 2025
 - Added support for custom backgrounds, allowing users to select and apply their own background images, which are automatically placed behind input images that contain transparent pixels (alpha channel). Custom backgrounds are stored in the \frames\custom_backgrounds directory.
 - Added the “Keep Location” output option, enabling generated files to be saved directly into the same directory as their source files. This works for both individual file processing and folder-based batch operations.
@@ -266,4 +269,4 @@ Ensure your `.ini` files follow this structure so that custom frames are correct
 
 ---
 
-© `2025`, `Makkad`
+© `2026`, `Makkad`

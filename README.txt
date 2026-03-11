@@ -2,8 +2,8 @@
                           REFORGERATOR
 ══════════════════════════════════════════════════════════════════════════════
 
-Date      : 16, November 2025
-Version   : 1.3.0
+Date      : 11, March 2026
+Version   : 1.3.1
 License   : MIT License (See LICENSE file)
 Author    : Makkad
 
@@ -191,6 +191,12 @@ handled. To deal with CLI output, use one of the following methods:
 ──────────────────────────────────────────────────────────────────────────────
  3.1. CHANGELOG
 ──────────────────────────────────────────────────────────────────────────────
+#### 1.3.1 - 11, March 2026
+- Adjusted prefix merging logic so that only overlaps of at least three
+  consecutive characters are merged, preventing unintended shortening when the
+  shared part is shorter (for example, \"BTN\" + \"North\" now becomes
+  \"BTNNorth\").
+
 #### 1.3.0 - 16, November 2025
 - Added support for custom backgrounds, allowing users to select and apply their
   own background images, which are automatically placed behind input images that
@@ -288,5 +294,5 @@ Reforgerator is licensed under the MIT License. For more details, see the
 `LICENSE` file.
 
 ──────────────────────────────────────────────────────────────────────────────
- © 2025, Makkad
+ © 2026, Makkad
 ──────────────────────────────────────────────────────────────────────────────

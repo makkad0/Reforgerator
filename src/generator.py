@@ -19,20 +19,27 @@ def is_valid_filename(filename):
     """
     return re.match(r'^[\w\-. ]+$', filename) is not None
 
+MIN_OVERLAP_LEN = 3
+
+
 def merge_prefix(basename, prefix):
     """
     Merges the given prefix with basename by removing duplicate parts.
     
-    It finds the longest suffix of `prefix` that is a prefix of `basename` 
-    and then returns prefix + (basename with that overlapping part removed).
+    It finds the longest suffix of `prefix` that is a prefix of `basename`
+    and has length at least MIN_OVERLAP_LEN; then returns prefix + (basename
+    with that overlapping part removed). Shorter overlaps are ignored so that
+    prefix and basename are simply concatenated.
     
     Example 1:
       prefix = "DISBTN", basename = "BTNButton"  --> returns "DISBTNButton"
     Example 2:
       prefix = "BTN", basename = "BTNBTNButton"  --> returns "BTNBTNButton"
+    Example 3:
+      prefix = "BTN", basename = "North"  --> returns "BTNNorth" (no 3-char overlap)
     """
     max_overlap = ""
-    for i in range(1, len(prefix) + 1):
+    for i in range(MIN_OVERLAP_LEN, len(prefix) + 1):
         suffix = prefix[-i:]
         if basename.startswith(suffix) and len(suffix) > len(max_overlap):
             max_overlap = suffix
